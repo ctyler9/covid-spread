@@ -1,13 +1,4 @@
-import pandas as pd
-import numpy as np
-import networkx as nx
-import matplotlib.pyplot as plt
-from tqdm import tqdm
-import datetime as dt
-from uszipcode import SearchEngine
-from math import *
-from pprint import pprint
-from seirsplus.models import *
+from util import *
 
 
 class DataManipulation():
@@ -20,17 +11,7 @@ class DataManipulation():
         city = search.by_city(city)
         return city
 
-    def haversine(self, lon1, lat1, lon2, lat2):
-        # convert decimal degrees to radians
-        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 
-        # haversine formula
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-        c = 2 * asin(sqrt(a))
-        r = 6371 # Radius of earth in kilometers. Use 3956 for miles
-        return c * r
 
     def state_dict(self):
         df_us = self.case_df.loc[self.case_df["Country_Region"] == "US"]
