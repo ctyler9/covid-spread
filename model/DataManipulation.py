@@ -12,8 +12,8 @@ from seirsplus.models import *
 
 class DataManipulation():
     def __init__(self):
-        self.case_df = pd.read_csv("c_data.csv")
-        self.state_graph = None
+        self.case_df = pd.read_csv("../data/c_data.csv")
+        self.graph = None
 
     def city_search(self, city):
         search = SearchEngine(simple_zipcode=False)
@@ -48,7 +48,7 @@ class DataManipulation():
                 G.add_node(city_, pos=(lat, lon))
             state_dict[state] = G
 
-        self.state_graph = state_dict
+        self.graph = state_dict
 
         return state_dict
 
@@ -72,31 +72,29 @@ class DataManipulation():
         return country_dict
 
     def graph_state(self, state):
-        state_graph = self.add_edges_state(state)
+        graph = self.add_edges_state(state)
 
-        pos = nx.get_node_attributes(state_graph, 'pos')
-        nx.draw(state_graph, pos, node_size=200)
+        pos = nx.get_node_attributes(graph, 'pos')
+        nx.draw(graph, pos, node_size=10)
         plt.show()
 
-        return state_graph
+        return graph
 
     def graph_country(self, country):
         country_graph = self.country_dict()
         c = country_graph[country]
 
         pos = nx.get_node_attributes(c, 'pos')
-        print(pos)
-        nx.draw(c, pos, node_size=200)
+        nx.draw(c, pos, node_size=10)
         plt.show()
 
     def add_edges_state(self, state):
-        state_graph = self.state_dict()
-        s = state_graph[state]
+        graph = self.state_dict()
+        s = graph[state]
 
 
         cities = nx.get_node_attributes(s, 'pos')
         for city1, coordinates1 in cities.items():
-            print(city1, coordinates1)
             for city2, coordinates2 in cities.items():
                 dist = self.haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
                 if dist < 30 and dist != 0:
@@ -105,8 +103,8 @@ class DataManipulation():
         return s
 
     def city_demographics(self, state):
-        state_graph = self.state_dict()
-        s = state_graph[state]
+        graph = self.state_dict()
+        s = graph[state]
 
         cities = nx.get_node_attributes(s, 'pos')
         city_dict = dict()

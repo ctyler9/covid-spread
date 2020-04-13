@@ -11,7 +11,7 @@ from DataManipulation import *
 
 ## VARIABLES
 #maximum elapsed time
-tmax = 100
+tmax = 0
 
 #beginning time
 t = 0
@@ -75,17 +75,18 @@ class gispPrediction():
             propensity2 = self.recovery_rate * n_I
             propensity_all = propensity1 + propensity2
 
+
             #tau leaping
             tau =- np.log(np.random.rand())/propensity_all
             self.t = self.t + tau
 
-            currently_infected=np.array([i for i in range(self.adjmatrix.shape[0]) if status[i]==1])
+            currently_infected = np.array([i for i in range(self.adjmatrix.shape[0]) if status[i] == 1])
 
             if np.random.rand() < propensity1/propensity_all:
 
                 #if people around susceptible cannot spread disease
                 #we have to terminate the infection
-                #otherwise we stuck in infinitive loops
+                #otherwise we're stuck in infinitive loops
                 currently_susceptible = [i for i in range(self.adjmatrix.shape[0]) if status[i]==0]
 
                 #this part looks confusing
@@ -152,8 +153,6 @@ class gispPrediction():
         #cleanup
         df = data.T
         df.reset_index(inplace=True)
-
-        print(df)
 
 
         #discrete time rounding
