@@ -1,136 +1,113 @@
 from util import *
 
 
-class DataManipulation():
+class UnitedStatesMap():
     def __init__(self):
         self.case_df = pd.read_csv("../data/c_data.csv")
-        self.graph = None
-
-    def city_search(self, city):
-        search = SearchEngine(simple_zipcode=False)
-        city = search.by_city(city)
-        return city
+        self.states_graph = None
+        self.state_list = self.case_df["Province_State"].unique()
 
 
-
-    def state_dict(self):
+    def state_df(self, state):
+        # Filter df by State
         df_us = self.case_df.loc[self.case_df["Country_Region"] == "US"]
+        state_df = df_us.loc[df_us["Province_State"] == state]
 
-        state_dict = dict()
-        for state in df_us["Province_State"].unique():
-            G = nx.Graph()
-            temp = df_us.loc[df_us["Province_State"] == state]
-            lat = temp["Lat"].tolist()
-            lon = temp["Long_"].tolist()
-            city = temp["Combined_Key"].tolist()
+        return state_df
+
+    def county_df(self, state):
+        # Get list of cities for that state
+        temp = self.state_df(state)
+        lat = temp["Lat"].tolist()
+        lon = temp["Long_"].tolist()
+        county = temp["Combined_Key"].tolist()
+
+        county = [county.split(',')[0] for county in county]
+
+        self.county_list = county
+
+        return dict(zip(county, zip(lon, lat)))
+
+    def county_plot(self, county):
+        G = nx.Graph()
+        county_dict = self.county_df("Georgia")
+        lon, lat = county_dict[county]
+
+        ## Exceptions
+        try:
+            temp = county_demographics(county)
+        except:
+            print('error')
+            pass
+        if lat == None:
+            pass
+
+        # number of nodes per thousand to represent the population
+        population = temp['population'] / 100
+        # 1 degree of coordinates = 69 miles
+
+        # base square block off of population
+        square_block = 25 # in miles
+        edge_block = square_block**(1/2)
+        degree_conversion = edge_block/69
+
+        # Degree boundaries
+        degree_west = lat - degree_conversion
+        degree_east = lat + degree_conversion
+        degree_north = lat + degree_conversion
+        degree_south = lat - degree_conversion
 
 
-            for lat, lon, city_ in zip(lat, lon, city):
-                G.add_node(city_, pos=(lat, lon))
-            state_dict[state] = G
+        #G.add_node(county, pos=(lat, lon))
+        for i in range(int(population)):
+            lat_r = np.random.uniform(degree_west, degree_east)
+            lon_r = np.random.uniform(degree_south, degree_north)
+            G.add_node(county + str(i), pos=(lat_r, lon_r))
 
-        self.graph = state_dict
-
-        return state_dict
-
-    def country_dict(self):
-        df = self.case_df
-
-        country_dict = dict()
-        for country in df["Country_Region"].unique():
-            G = nx.Graph()
-            temp = df.loc[df["Country_Region"] == country]
-            lat = temp["Lat"].tolist()
-            lon = temp["Long_"].tolist()
-            city = temp["Combined_Key"].tolist()
-
-            for lat, lon, city_ in zip(lat, lon, city):
-                G.add_node(city_, pos=(lat, lon))
+        return G
 
 
-            country_dict[country] = G
+    def add_edges_county(self, county, radius):
+        graph = self.county_plot(county)
 
-        return country_dict
-
-    def graph_state(self, state):
-        graph = self.add_edges_state(state)
-
-        pos = nx.get_node_attributes(graph, 'pos')
-        nx.draw(graph, pos, node_size=10)
-        plt.show()
+        people = nx.get_node_attributes(graph, 'pos')
+        for person1, coordinates1 in people.items():
+            for person2, coordinates2 in people.items():
+                dist = haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
+                if dist < radius and dist != 0:
+                    graph.add_edge(person1, person2)
 
         return graph
 
-    def graph_country(self, country):
-        country_graph = self.country_dict()
-        c = country_graph[country]
+    def connect_counties(self, county_list=None):
+        if county_list == None:
+            self.county_df()
+            county_list = self.county_list
 
-        pos = nx.get_node_attributes(c, 'pos')
-        nx.draw(c, pos, node_size=10)
+        count = 0
+        for county in county_list:
+            if count == 0:
+                G_nodes = self.add_edges_county(county, 0.7)
+            else:
+                temp = self.add_edges_county(county, 0.7)
+                comb = nx.disjoint_union(G_nodes, temp)
+            count += 1
+
+        return comb
+
+
+    def graph(self, G):
+        pos = nx.get_node_attributes(G, 'pos')
+        nx.draw(G, pos, node_size=10)
         plt.show()
 
-    def add_edges_state(self, state):
-        graph = self.state_dict()
-        s = graph[state]
-
-
-        cities = nx.get_node_attributes(s, 'pos')
-        for city1, coordinates1 in cities.items():
-            for city2, coordinates2 in cities.items():
-                dist = self.haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
-                if dist < 30 and dist != 0:
-                    s.add_edge(city1, city2)
-
-        return s
-
-    def city_demographics(self, state):
-        graph = self.state_dict()
-        s = graph[state]
-
-        cities = nx.get_node_attributes(s, 'pos')
-        city_dict = dict()
-        for city in tqdm(list(cities.keys())[0:3]):
-            temp = self.city_search(city)
-
-            population = list()
-            population_density = list()
-            median_household_income = list()
-            for instance in temp:
-                population.append(instance.population)
-                population_density.append(instance.population_density)
-                median_household_income.append(instance.median_household_income)
-            pop = np.sum(population)
-            pop_d = np.average(population_density)
-            mhi = np.average(median_household_income)
-
-            city_dict[city] = {"population": pop, "population_density": pop_d, "median_household_income": mhi}
-
-
-        return city_dict
-
-    def sers(self):
-        baseGraph = self.graph_state("Georgia")
-        G_normal = custom_exponential_graph(baseGraph, scale=100)
-        # Social distancing interactions:
-        G_distancing = custom_exponential_graph(baseGraph, scale=10)
-        # Quarantine interactions:
-        G_quarantine = custom_exponential_graph(baseGraph, scale=5)
-
-        model = SEIRSNetworkModel(G=G_normal, beta=0.155, sigma=1/5.2, gamma=1/12.39, mu_I=0.0004, p=0.5,
-                                  Q=G_quarantine, beta_D=0.155, sigma_D=1/5.2, gamma_D=1/12.39, mu_D=0.0004,
-                                  theta_E=0.02, theta_I=0.02, phi_E=0.2, phi_I=0.2, psi_E=1.0, psi_I=1.0, q=0.5,
-                                  initI=10)
-
-        checkpoints = {'t': [20, 100], 'G': [G_distancing, G_normal], 'p': [0.1, 0.5], 'theta_E': [0.02, 0.02], 'theta_I': [0.02, 0.02], 'phi_E':   [0.2, 0.2], 'phi_I':   [0.2, 0.2]}
-
-        model.run(T=500, checkpoints=checkpoints)
-
-        model.figure_infections()
+        return G
 
 
 if __name__ == '__main__':
-    avar = DataManipulation()
-    print(avar.graph_state("Georgia"))
+    avar = UnitedStatesMap()
+    atl = avar.connect_counties(["Gwinnett", "Fulton"])
+    print(avar.graph(atl))
 
 
 
