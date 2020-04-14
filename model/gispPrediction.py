@@ -2,7 +2,7 @@ from DataManipulation import *
 
 ## VARIABLES
 #maximum elapsed time
-tmax = 10
+tmax = 50
 
 #beginning time
 t = 0
@@ -59,7 +59,6 @@ class gispPrediction():
             status = np.concatenate([sus, inf, rec])
 
         #status = da
-        print(status)
         np.random.shuffle(status)
         list_t = [0]
 
@@ -157,6 +156,7 @@ class gispPrediction():
         df = data.T
         df.reset_index(inplace=True)
 
+        print(df)
 
         #discrete time rounding
         df['time'] = df['index'].apply(int).diff(-1)
