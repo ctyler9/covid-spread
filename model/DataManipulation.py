@@ -6,7 +6,15 @@ class UnitedStatesMap():
         self.case_df = pd.read_csv("../data/c_data.csv")
         self.states_graph = None
         self.state_list = self.case_df["Province_State"].unique()
+        self.population_dict = dict()
+        self.infected_dict = dict()
+        self.recovered_dict = dict()
+        self.death_dict = dict()
 
+        # population counts
+        self.number_susceptible = 0
+        self.number_infected = 0
+        self.number_recovered = 0
 
     def state_df(self, state):
         # Filter df by State
@@ -15,6 +23,7 @@ class UnitedStatesMap():
 
         return state_df
 
+
     def county_df(self, state):
         # Get list of cities for that state
         temp = self.state_df(state)
@@ -22,9 +31,16 @@ class UnitedStatesMap():
         lon = temp["Long_"].tolist()
         county = temp["Combined_Key"].tolist()
 
+        infected = temp["Confirmed"].tolist()
+        deaths = temp["Deaths"].tolist()
+        recovered = temp["Recovered"].tolist()
+
         county = [county.split(',')[0] for county in county]
 
         self.county_list = county
+        self.infected_dict = dict(zip(county, infected))
+        self.recovered_dict = dict(zip(county, recovered))
+        self.death_dict = dict(zip(county, deaths))
 
         return dict(zip(county, zip(lon, lat)))
 
@@ -42,6 +58,9 @@ class UnitedStatesMap():
         if lat == None:
             pass
 
+
+        self.population_dict[county] = temp['population']
+        print(self.population_dict)
         # number of nodes per thousand to represent the population
         population = temp['population'] / 100
         # 1 degree of coordinates = 69 miles
@@ -67,7 +86,7 @@ class UnitedStatesMap():
         return G
 
 
-    def add_edges_county(self, county, radius):
+    def add_edges_county(self, county, radius=0.7):
         graph = self.county_plot(county)
 
         people = nx.get_node_attributes(graph, 'pos')
@@ -79,21 +98,30 @@ class UnitedStatesMap():
 
         return graph
 
-    def connect_counties(self, county_list=None):
+    def county_dict(self, county_list=None):
         if county_list == None:
             self.county_df()
             county_list = self.county_list
 
-        count = 0
+        county_dict = dict()
         for county in county_list:
+            county_dict[county] = self.add_edges_county(county)
+
+        return county_dict
+
+    def connect_counties(self, county_list):
+        cd = self.county_dict(county_list)
+        count = 0
+        for key in cd.keys():
             if count == 0:
-                G_nodes = self.add_edges_county(county, 0.7)
+                combined_graph = cd[key]
             else:
-                temp = self.add_edges_county(county, 0.7)
-                comb = nx.disjoint_union(G_nodes, temp)
+                combined_graph = nx.disjoint_union(combined_graph, cd[key])
             count += 1
 
-        return comb
+        print(self.population_dict)
+
+        return combined_graph
 
 
     def graph(self, G):
@@ -103,11 +131,28 @@ class UnitedStatesMap():
 
         return G
 
+    def index_dict(self):
+        index_dict = dict()
+        for county in self.population_dict.keys():
+            self.number_infected += self.infected_dict[county]
+            self.number_recovered += self.recovered_dict[county] + self.death_dict[county]
+            self.number_susceptible += (self.population_dict[county] - self.number_infected - self.number_recovered)
+
+            index_dict[county] = (self.population_dict[county] - self.infected_dict[county],
+                self.infected_dict[county])
+
+        return index_dict
+
+    def SIR(self):
+        return int(self.number_susceptible/100), int(self.number_infected/100), int(self.number_recovered/100)
+
 
 if __name__ == '__main__':
     avar = UnitedStatesMap()
-    atl = avar.connect_counties(["Gwinnett", "Fulton"])
-    print(avar.graph(atl))
+    atl = avar.connect_counties(["Fulton"])
+    print(avar.index_dict())
+    print(avar.infected)
+    #print(avar.graph(atl))
 
 
 

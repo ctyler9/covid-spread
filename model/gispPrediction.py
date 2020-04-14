@@ -2,27 +2,27 @@ from DataManipulation import *
 
 ## VARIABLES
 #maximum elapsed time
-tmax = 0
+tmax = 10
 
 #beginning time
 t = 0
 
 # import graph from John Hopkin's Data
-ga = DataManipulation()
-graph = ga.add_edges_state("Georgia")
+avar = UnitedStatesMap()
+graph = avar.connect_counties(["Fulton"])
+index = avar.index_dict()
 
 #initial parameters
 infection_rate = 0.01
 recovery_rate = 0.06
 
-I0 = 1
-S0 = len(graph.nodes()) - I0
-R0 = 0
+S0, I0, R0 = avar.SIR()
+R0 = R0 + 1
 
 
 ## MODEL
 class gispPrediction():
-    def __init__(self, tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph):
+    def __init__(self, tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index):
         self.tmax = tmax
         self.t = 0
         self.infection_rate = infection_rate
@@ -31,10 +31,13 @@ class gispPrediction():
         self.I0 = I0
         self.R0 = R0
         self.N = S0 + I0 + R0
+        print(self.N)
+        print(len(graph.nodes()))
 
         self.graph = graph
         self.adjmatrix = nx.to_numpy_array(graph)
         self.colorlist = ['#99B898','#FECEAB','#FF847C']
+        self.index = index
 
     def gillespie(self):
         #initial
@@ -47,7 +50,15 @@ class gispPrediction():
         #0 denotes susceptible
         #1 denotes infected
         #-1 denotes recovered
-        status = np.array([0]*self.S0+[1]*self.I0+[-1]*self.R0)
+        #status = np.array([0]*self.S0+[1]*self.I0+[-1]*self.R0)
+        for i in index.values():
+            z = np.zeros(i[0])
+            o = np.ones(i[1])
+            da = np.concatenate([z, o])
+
+
+        status = da
+        print(status)
         np.random.shuffle(status)
         list_t = [0]
 
@@ -180,7 +191,7 @@ class gispPrediction():
             #replace value with color
             nx.draw(self.graph,pos,node_color=self.df[i].replace({-1:recovered_color,
                                                        0:susceptible_color,
-                                                       1:infected_color}))
+                                                       1:infected_color}), node_size=10)
 
             #create legends
             S = mlines.Line2D([],[],color=susceptible_color,
@@ -207,7 +218,7 @@ class gispPrediction():
 
 
 if __name__ == '__main__':
-    avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph)
+    avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index)
     avar.gillespie()
     avar.create_data()
     avar.plot_graph()
