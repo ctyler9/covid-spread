@@ -52,12 +52,13 @@ class gispPrediction():
         #-1 denotes recovered
         #status = np.array([0]*self.S0+[1]*self.I0+[-1]*self.R0)
         for i in index.values():
-            z = np.zeros(i[0])
-            o = np.ones(i[1])
-            da = np.concatenate([z, o])
+            sus = np.zeros(self.S0)
+            inf = np.ones(self.I0)
+            rec = -1 * np.ones(self.R0)
 
+            status = np.concatenate([sus, inf, rec])
 
-        status = da
+        #status = da
         print(status)
         np.random.shuffle(status)
         list_t = [0]

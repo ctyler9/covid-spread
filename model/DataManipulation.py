@@ -149,9 +149,8 @@ class UnitedStatesMap():
 
 if __name__ == '__main__':
     avar = UnitedStatesMap()
-    atl = avar.connect_counties(["Fulton"])
-    print(avar.index_dict())
-    print(avar.infected)
+    atl = avar.connect_counties(["Fulton", "Gwinnett"])
+    print(avar.graph(atl))
     #print(avar.graph(atl))
 
 
