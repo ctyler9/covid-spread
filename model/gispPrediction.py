@@ -1,25 +1,5 @@
 from DataManipulation import *
 
-## VARIABLES
-#maximum elapsed time
-tmax = 50
-
-#beginning time
-t = 0
-
-# import graph from John Hopkin's Data
-avar = UnitedStatesMap()
-graph = avar.connect_counties(["Fulton"])
-index = avar.index_dict()
-
-#initial parameters
-infection_rate = 0.01
-recovery_rate = 0.06
-
-S0, I0, R0 = avar.SIR()
-R0 = R0 + 1
-
-
 ## MODEL
 class gispPrediction():
     def __init__(self, tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index):
@@ -219,6 +199,25 @@ class gispPrediction():
 
 
 if __name__ == '__main__':
+    ## VARIABLES
+    #maximum elapsed time
+    tmax = 50
+
+    #beginning time
+    t = 0
+
+    # import graph from John Hopkin's Data
+    avar = UnitedStatesMap()
+    graph = avar.connect_counties(["Fulton"])
+    index = avar.index_dict()
+
+    #initial parameters
+    infection_rate = 0.01
+    recovery_rate = 0.06
+
+    S0, I0, R0 = avar.SIR()
+    R0 = R0 + 1
+
     avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index)
     avar.gillespie()
     avar.create_data()

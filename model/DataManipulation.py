@@ -63,10 +63,10 @@ class UnitedStatesMap():
         print(self.population_dict)
         # number of nodes per thousand to represent the population
         population = temp['population'] / 100
-        # 1 degree of coordinates = 69 miles
 
+        # 1 degree of coordinates = 69 miles
         # base square block off of population
-        square_block = 25 # in miles
+        square_block = 15 # in miles
         edge_block = square_block**(1/2)
         degree_conversion = edge_block/69
 
@@ -86,7 +86,7 @@ class UnitedStatesMap():
         return G
 
 
-    def add_edges_county(self, county, radius=0.7):
+    def add_edges_county(self, county, radius=0.5):
         graph = self.county_plot(county)
 
         people = nx.get_node_attributes(graph, 'pos')
@@ -124,9 +124,22 @@ class UnitedStatesMap():
         return combined_graph
 
 
+    def combine_connected_graphs(self):
+        cg = self.connect_counties(["Fulton", "Henry"])
+        people = nx.get_node_attributes(cg, 'pos')
+        for i in range(10):
+            coord1 = np.choose(people.items())
+            coord2 = np.choose(people.items())
+
+                cg.add_edge(person1, person2)
+
+
+        return cg
+
+
     def graph(self, G):
         pos = nx.get_node_attributes(G, 'pos')
-        nx.draw(G, pos, node_size=10)
+        nx.draw(G, pos, node_size=1)
         plt.show()
 
         return G
@@ -149,9 +162,10 @@ class UnitedStatesMap():
 
 if __name__ == '__main__':
     avar = UnitedStatesMap()
-    atl = avar.connect_counties(["Fulton", "Gwinnett"])
-    print(avar.graph(atl))
-    #print(avar.graph(atl))
+    #avar.connect_counties(["Fulton", "Henry"])
+    sdl = avar.combine_connected_graphs()
+    print(avar.graph(sdl))
+    # print(avar.graph(atl))
 
 
 
