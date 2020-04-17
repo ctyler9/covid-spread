@@ -36,7 +36,7 @@ class gispPrediction():
             inf = np.ones(self.I0)
             rec = -1 * np.ones(self.R0)
 
-            status = np.concatenate([sus, inf, rec])
+            status = np.concatenate([sus, inf, rec], axis=None)
 
         #status = da
         np.random.shuffle(status)
@@ -198,7 +198,7 @@ class gispPrediction():
             imageio.mimsave('movie.gif',images,duration=0.5)
 
 
-if __name__ == '__main__':
+def main():
     ## VARIABLES
     #maximum elapsed time
     tmax = 50
@@ -222,6 +222,12 @@ if __name__ == '__main__':
     avar.gillespie()
     avar.create_data()
     avar.plot_graph()
+
+
+
+if __name__ == '__main__':
+    main()
+
 
 
 

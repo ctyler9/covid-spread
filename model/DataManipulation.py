@@ -81,7 +81,7 @@ class UnitedStatesMap():
         for i in range(int(population)):
             lat_r = np.random.uniform(degree_west, degree_east)
             lon_r = np.random.uniform(degree_south, degree_north)
-            G.add_node(county + str(i), pos=(lat_r, lon_r))
+            G.add_node(county + "_" + str(i), pos=(lat_r, lon_r))
 
         return G
 
@@ -116,7 +116,7 @@ class UnitedStatesMap():
             if count == 0:
                 combined_graph = cd[key]
             else:
-                combined_graph = nx.disjoint_union(combined_graph, cd[key])
+                combined_graph = nx.compose(combined_graph, cd[key])
             count += 1
 
         print(self.population_dict)
@@ -124,17 +124,26 @@ class UnitedStatesMap():
         return combined_graph
 
 
-    def combine_connected_graphs(self):
-        cg = self.connect_counties(["Fulton", "Henry"])
-        people = nx.get_node_attributes(cg, 'pos')
-        for i in range(10):
-            coord1 = np.choose(people.items())
-            coord2 = np.choose(people.items())
+    def combine_connected_graphs(self, num):
+        combined_graph = self.connect_counties(["Fulton", "Gwinnett"])
+        all_nodes = nx.get_node_attributes(combined_graph, 'pos')
+        node_key = list(all_nodes.keys())
 
-                cg.add_edge(person1, person2)
+        count = 0
+        while count <= num:
+            node1_k = np.random.choice(node_key)
+            node2_k = np.random.choice(node_key)
 
+            name1 = node1_k.split('_')[0]
+            name2 = node2_k.split('_')[0]
+            if name1 != name2:
+                node1 = all_nodes[node1_k]
+                node2 = all_nodes[node2_k]
+                if haversine(node1[0], node1[1], node2[0], node2[1]) < 100:
+                    combined_graph.add_edge(node1_k, node2_k)
+                    count += 1
 
-        return cg
+        return combined_graph
 
 
     def graph(self, G):
@@ -160,13 +169,16 @@ class UnitedStatesMap():
         return int(self.number_susceptible/100), int(self.number_infected/100), int(self.number_recovered/100)
 
 
-if __name__ == '__main__':
+def main():
     avar = UnitedStatesMap()
     #avar.connect_counties(["Fulton", "Henry"])
-    sdl = avar.combine_connected_graphs()
+    sdl = avar.combine_connected_graphs(10)
     print(avar.graph(sdl))
     # print(avar.graph(atl))
 
+
+if __name__ == '__main__':
+    main()
 
 
 
