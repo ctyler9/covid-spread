@@ -31,7 +31,7 @@ class gispPrediction():
         #1 denotes infected
         #-1 denotes recovered
         #status = np.array([0]*self.S0+[1]*self.I0+[-1]*self.R0)
-        for i in index.values():
+        for i in self.index.values():
             sus = np.zeros(self.S0)
             inf = np.ones(self.I0)
             rec = -1 * np.ones(self.R0)
@@ -136,7 +136,6 @@ class gispPrediction():
         df = data.T
         df.reset_index(inplace=True)
 
-        print(df)
 
         #discrete time rounding
         df['time'] = df['index'].apply(int).diff(-1)
@@ -152,9 +151,13 @@ class gispPrediction():
         df.set_index('real time',inplace=True)
         df = df.T
 
+        # Aggregates sum of infected
+        testdf = df
+        testdf[testdf==-1.0] = 0.0
+        sumofinfected = testdf.sum(axis=0)
+        print(sumofinfected)
+
         self.df = df
-
-
         return df
 
     def plot_graph(self, save_gif=False):
@@ -221,7 +224,7 @@ def main():
     avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index)
     avar.gillespie()
     avar.create_data()
-    avar.plot_graph()
+    #avar.plot_graph()
 
 
 
