@@ -1,0 +1,64 @@
+.counties {
+  fill: #fff;
+}
+
+.states {
+  fill: none;
+  stroke: none;
+  stroke-linejoin: round;
+}
+
+.background {
+  fill: none;
+  pointer-events: all;
+}
+
+.bubbles {
+  stroke: #000;
+  stroke-width: 0.25;
+  fill-opacity: .35;
+}
+
+.bubbles-legend {
+  stroke: #900;
+  fill-opacity: 0;
+}
+
+.tip {
+    position: absolute;
+    padding: 5px;
+    font: 12px sans-serif;
+    color: white;
+    background: dimgray;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+.label-text {
+    font-size: 25px;
+    font-family: sans-serif;
+}
+
+.title-text {
+  font: 25px sans-serif;
+  font-weight: bold;
+  color: dimgray;
+}
+
+.subtitle-text {
+  font: 15px sans-serif;
+  font-weight: bold;
+  color: dimgray;
+}
+
+.avg-text {
+  font: 12px sans-serif;
+  color: dimgray;
+}
+
+.btn-holder {
+  position: absolute;
+  top: 15%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+}
