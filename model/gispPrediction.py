@@ -154,7 +154,12 @@ class gispPrediction():
         df.set_index('real time',inplace=True)
         df = df.T
 
-        self.df = df
+        # Aggregates sum of infected
+        testdf = df
+        testdf[testdf==-1.0] = 0.0
+        sumofinfected = testdf.sum(axis=0)
+        df_sums = sumofinfected
+
 
         return df
 
@@ -221,7 +226,7 @@ def main():
     avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index)
     avar.gillespie()
     avar.create_data()
-    avar.plot_graph()
+    #avar.plot_graph()
 
 
 
