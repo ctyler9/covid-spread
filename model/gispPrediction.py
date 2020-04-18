@@ -11,8 +11,6 @@ class gispPrediction():
         self.I0 = I0
         self.R0 = R0
         self.N = S0 + I0 + R0
-        print(self.N)
-        print(len(graph.nodes()))
 
         self.graph = graph
         self.adjmatrix = nx.to_numpy_array(graph)
@@ -30,20 +28,25 @@ class gispPrediction():
         #0 denotes susceptible
         #1 denotes infected
         #-1 denotes recovered
-        #status = np.array([0]*self.S0+[1]*self.I0+[-1]*self.R0)
-        for i in index.values():
-            sus = np.zeros(self.S0)
-            inf = np.ones(self.I0)
-            rec = -1 * np.ones(self.R0)
-
-            status = np.concatenate([sus, inf, rec], axis=None)
-
-        #status = da
+        status = np.array([0]*self.S0+[1]*self.I0+[-1]*self.R0)
         np.random.shuffle(status)
         list_t = [0]
 
         #de facto deep copy
         list_status = [i for i in status]
+
+
+
+        # # prototype for individual region starting
+        # for i in self.index.values():
+        #     sus = np.zeros(self.S0)
+        #     inf = np.ones(self.I0)
+        #     rec = -1 * np.ones(self.R0)
+
+        #     status = np.concatenate([sus, inf, rec])
+
+        #status = da
+
 
         #unless every patient is recovered
         #or t has reach the maximum elapsed time
@@ -136,7 +139,6 @@ class gispPrediction():
         df = data.T
         df.reset_index(inplace=True)
 
-        print(df)
 
         #discrete time rounding
         df['time'] = df['index'].apply(int).diff(-1)
@@ -153,7 +155,6 @@ class gispPrediction():
         df = df.T
 
         self.df = df
-
 
         return df
 
@@ -201,14 +202,14 @@ class gispPrediction():
 def main():
     ## VARIABLES
     #maximum elapsed time
-    tmax = 50
+    tmax = 10
 
     #beginning time
     t = 0
 
     # import graph from John Hopkin's Data
     avar = UnitedStatesMap()
-    graph = avar.connect_counties(["Fulton"])
+    graph = avar.connect_counties(["Fulton", "Henry"])
     index = avar.index_dict()
 
     #initial parameters
@@ -216,7 +217,6 @@ def main():
     recovery_rate = 0.06
 
     S0, I0, R0 = avar.SIR()
-    R0 = R0 + 1
 
     avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index)
     avar.gillespie()

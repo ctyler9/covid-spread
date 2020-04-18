@@ -15,6 +15,8 @@ import copy
 import numba
 import os
 import overpass
+from collections import Counter
+from itertools import product
 
 
 def haversine(lon1, lat1, lon2, lat2):
@@ -72,6 +74,9 @@ def sers(graph):
     model.run(T=500, checkpoints=checkpoints)
 
     model.figure_infections()
+
+def nodes_connected(graph, u, v):
+    return nx.node_connected_component(graph, u) == nx.node_connected_component(graph, v)
 
 
 if __name__ == '__main__':
