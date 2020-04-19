@@ -216,7 +216,7 @@ def main():
 
     # import graph from John Hopkin's Data
     avar = UnitedStatesMap()
-    graph = avar.combine_connected_graphs(20, ["Fulton", "Henry"])
+    graph = avar.combine_connected_graphs()
     index = avar.index_dict()
 
     #initial parameters
