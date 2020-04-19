@@ -206,7 +206,6 @@ class gispPrediction():
             imageio.mimsave('movie.gif',images,duration=0.5)
 
 
-
 def main():
     ## VARIABLES
     #maximum elapsed time

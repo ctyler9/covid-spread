@@ -3,10 +3,11 @@ from util import *
 
 class UnitedStatesMap():
     def __init__(self):
-        self.case_df = pd.read_csv("../data/c_data.csv")
+        self.case_df = pd.read_csv("../data/case_data.csv")
         self.states_graph = None
         self.state_list = self.case_df["Province_State"].unique()
 
+        self.population_df = pd.read_csv("../data/census_data.csv", encoding="ISO-8859-1")
 
         # total information
         self.population_dict = dict()
@@ -27,6 +28,16 @@ class UnitedStatesMap():
         state_df = df_us.loc[df_us["Province_State"] == state]
 
         return state_df
+
+    def county_population(self, state):
+        df = self.population_df.loc[self.population_df["STNAME"] == state]
+
+        county_dict = df[["CTYNAME", "POPESTIMATE2019"]]
+        county_dict = county_dict.copy()
+        county_dict["CTYNAME"] = county_dict["CTYNAME"].str.split(" ", expand=True)[0]
+        county_dict = county_dict.set_index("CTYNAME").to_dict()
+
+        return county_dict["POPESTIMATE2019"]
 
     def county_df(self, state):
         # Get list of cities for that state
@@ -52,25 +63,25 @@ class UnitedStatesMap():
         G = nx.Graph()
         county_dict = self.county_df("Georgia")
         lon, lat = county_dict[county]
+        county_dict = self.county_population("Georgia")
 
         ## Exceptions
         try:
-            temp = county_demographics(county)
+            population = county_dict[county]
         except:
-            print('error')
-            pass
+            print(str(county) + " not found")
         if lat == None:
             pass
 
-
-        self.population_dict[county] = temp['population']
+        print(county)
+        self.population_dict[county] = population
         # number of nodes per thousand to represent the population
-        population = temp['population'] / 100
-        g_ratio = 15/446.47
+        population_scaled = population / 1000
+        g_ratio = 15/1063.937
 
         # 1 degree of coordinates = 69 miles
         # base square block off of population
-        square_block = g_ratio * population # in miles (15 old)
+        square_block = g_ratio * population_scaled # in miles (15 old)
         edge_block = square_block**(1/2)
         degree_conversion = edge_block/69
 
@@ -83,7 +94,7 @@ class UnitedStatesMap():
 
         #G.add_node(county, pos=(lat, lon))
         count = 0
-        for i in range(int(population)):
+        for i in range(int(population_scaled)):
             lat_r = np.random.uniform(degree_west, degree_east)
             lon_r = np.random.uniform(degree_south, degree_north)
             G.add_node(county + "_" + str(i), pos=(lat_r, lon_r))
@@ -171,15 +182,15 @@ class UnitedStatesMap():
         index_dict = dict()
 
         for county in self.population_dict.keys():
-            self.number_infected += self.infected_dict[county]/100
-            self.number_recovered += (self.recovered_dict[county]/100 + self.death_dict[county]/100)
-            self.number_susceptible += (self.population_dict[county]/100 - self.number_infected/100 - self.number_recovered/100)
+            self.number_infected += self.infected_dict[county]/1000
+            self.number_recovered += (self.recovered_dict[county]/1000 + self.death_dict[county]/1000)
+            self.number_susceptible += (self.population_dict[county]/1000 - self.number_infected/1000 - self.number_recovered/1000)
 
 
-        p_dict = {key: ceil(value/100) for key,value in self.population_dict.items()}
-        i_dict = {key: ceil(value/100) for key,value in self.infected_dict.items() if key in self.population_dict.keys()}
-        r_dict = {key: ceil(value/100) for key,value in self.recovered_dict.items() if key in self.population_dict.keys()}
-        d_dict = {key: ceil(value/100) for key,value in self.death_dict.items() if key in self.population_dict.keys()}
+        p_dict = {key: ceil(value/1000) for key,value in self.population_dict.items()}
+        i_dict = {key: ceil(value/1000) for key,value in self.infected_dict.items() if key in self.population_dict.keys()}
+        r_dict = {key: ceil(value/1000) for key,value in self.recovered_dict.items() if key in self.population_dict.keys()}
+        d_dict = {key: ceil(value/1000) for key,value in self.death_dict.items() if key in self.population_dict.keys()}
 
         s_dict = dict(Counter(p_dict) - Counter(i_dict) - Counter(r_dict))
         r_dict = dict(Counter(r_dict) + Counter(d_dict))
@@ -217,8 +228,11 @@ def main():
     #las = avar.add_edges_county("Fulton")
     #print(avar.graph(las))
 
-    sdl = avar.combine_connected_graphs(20, ["Fulton", "Henry", "Clayton", "Rabun"])
+    #print(avar.county_population("Georgia"))
+
+    sdl = avar.combine_connected_graphs(20, ["Fulton", "Henry", "Clayton", "Rabun", "Seminole", "Baker", "Bacon"])
     #sdl = avar.county_dict(10)
+    #aec = avar.add_edges_county("Fulton")
     print(avar.graph(sdl))
     # print(avar.index_dict())
     # print(avar.SIR())

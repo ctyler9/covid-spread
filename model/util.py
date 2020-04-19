@@ -14,8 +14,8 @@ import imageio
 import copy
 import numba
 import os
-import overpass
 from collections import Counter
+import csv
 
 def haversine(lon1, lat1, lon2, lat2):
     # convert decimal degrees to radians
@@ -33,11 +33,6 @@ def county_search(county):
     search = SearchEngine(simple_zipcode=False)
     county = search.by_city(county)
     return county
-
-def county_bounds(county):
-    api = overpass.API()
-    resp = api.get("""[out:json];relation[name="{}"];out bb;""".format(county), build=False, responseformat="json")
-    return resp["elements"][0]["bounds"]
 
 def county_demographics(county):
     temp = county_search(county)
