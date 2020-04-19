@@ -3,9 +3,6 @@ from util import *
 
 class UnitedStatesMap():
     def __init__(self):
-        global division_num
-        division_num = 1000
-
         # Get current data url
         yesterday = dt.date.today() - dt.timedelta(days=1)
         str_time = yesterday.strftime("%m-%d-%Y")
@@ -24,6 +21,8 @@ class UnitedStatesMap():
         self.infected_dict = dict()
         self.recovered_dict = dict()
         self.death_dict = dict()
+        self.county_output_info = dict()
+        self.county_list = dict()
 
         # total counts
         self.number_susceptible = 0
@@ -40,6 +39,7 @@ class UnitedStatesMap():
         return state_df
 
     def county_population(self, state):
+        #wont overlap
         df = self.population_df.loc[self.population_df["STNAME"] == state]
 
         county_dict = df[["CTYNAME", "POPESTIMATE2019"]]
@@ -55,33 +55,38 @@ class UnitedStatesMap():
         temp = self.state_df(state)
         lat = temp["Lat"].tolist()
         lon = temp["Long_"].tolist()
-        county = temp["Combined_Key"].tolist()
+        county_og = temp["Combined_Key"].tolist()
 
         infected = temp["Confirmed"].tolist()
         deaths = temp["Deaths"].tolist()
         recovered = temp["Recovered"].tolist()
+        fips = temp["FIPS"].tolist()
 
-        county = [county.split(',')[0] for county in county if county != state]
+        counties = [county.split(',')[0] for county in county_og]
+        state_labels = [county.split(',')[1] for county in county_og]
 
-        self.county_list = county
-        self.infected_dict = dict(zip(county, infected))
-        self.recovered_dict = dict(zip(county, recovered))
-        self.death_dict = dict(zip(county, deaths))
+        self.county_list = fips
+        self.county_labels = dict(zip(fips,counties))
+        self.county_output_info = dict(zip(fips, zip(counties, state_labels)))
+        self.infected_dict = dict(zip(fips, infected))
+        self.recovered_dict = dict(zip(fips, recovered))
+        self.death_dict = dict(zip(fips, deaths))
 
-        return dict(zip(county, zip(lon, lat)))
+        return dict(zip(fips, zip(lon, lat)))
 
     def county_plot(self, county, state):
         G = nx.Graph()
         county_dict = self.county_df(state)
         lon, lat = county_dict[county]
-        county_dict = self.county_population(state)
+        county_name = self.county_labels[county]
+        county_pop_info = self.county_population(state)
 
         ## Exceptions
         try:
-            population = county_dict[county]
+            population = county_pop_info[county_name]
         except:
-            print(str(county) + " not found")
-            print("Generating random population for " + str(county))
+            print(str(county_name) + " not found")
+            print("Generating random population for county")
             population = np.random.uniform(10000, 100000)
         if lat == None:
             pass
@@ -89,7 +94,7 @@ class UnitedStatesMap():
         print(county)
         self.population_dict[county] = population
         # number of nodes per thousand to represent the population
-        population_scaled = population / division_num
+        population_scaled = population / 1000
         g_ratio = 15/1063.937
 
         # 1 degree of coordinates = 69 miles
@@ -110,14 +115,14 @@ class UnitedStatesMap():
         for i in range(ceil(population_scaled)):
             lat_r = np.random.uniform(degree_west, degree_east)
             lon_r = np.random.uniform(degree_south, degree_north)
-            G.add_node(county + "_" + str(i), pos=(lon_r, lat_r))
+            G.add_node(str(county) + "_" + str(i), pos=(lon_r, lat_r))
             count += 1
 
         self.idx_dict[county] = count
 
         return G
 
-    def add_edges_county(self, county, state, radius=0.5, max_node_degree=2, max_num_components=1):
+    def add_edges_county(self, county, state, radius=0.5):
         graph = self.county_plot(county, state)
         all_nodes = nx.get_node_attributes(graph, 'pos')
         node_key = list(all_nodes.keys())
@@ -126,10 +131,10 @@ class UnitedStatesMap():
             for person2, coordinates2 in all_nodes.items():
                 dist = haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
                 if dist < radius and dist != 0:
-                    if len(graph.edges(person1)) <= max_node_degree and len(graph.edges(person2)) <= max_node_degree:
+                    if len(graph.edges(person1)) <= 2 and len(graph.edges(person2)) <= 2:
                         graph.add_edge(person1, person2)
 
-        while nx.number_connected_components(graph) > max_num_components:
+        while nx.number_connected_components(graph) != 1:
             node1_k = np.random.choice(node_key)
             node2_k = np.random.choice(node_key)
 
@@ -228,15 +233,15 @@ class UnitedStatesMap():
         index_dict = dict()
 
         for county in self.population_dict.keys():
-            self.number_infected += self.infected_dict[county]/division_num
-            self.number_recovered += (self.recovered_dict[county]/division_num + self.death_dict[county]/division_num)
-            self.number_susceptible += (self.population_dict[county]/division_num - self.number_infected/division_num - self.number_recovered/division_num)
+            self.number_infected += self.infected_dict[county]/1000
+            self.number_recovered += (self.recovered_dict[county]/1000 + self.death_dict[county]/1000)
+            self.number_susceptible += (self.population_dict[county]/1000 - self.number_infected/1000 - self.number_recovered/1000)
 
 
-        p_dict = {key: ceil(value/division_num) for key,value in self.population_dict.items()}
-        i_dict = {key: ceil(value/division_num) for key,value in self.infected_dict.items() if key in self.population_dict.keys()}
-        r_dict = {key: ceil(value/division_num) for key,value in self.recovered_dict.items() if key in self.population_dict.keys()}
-        d_dict = {key: ceil(value/division_num) for key,value in self.death_dict.items() if key in self.population_dict.keys()}
+        p_dict = {key: ceil(value/1000) for key,value in self.population_dict.items()}
+        i_dict = {key: ceil(value/1000) for key,value in self.infected_dict.items() if key in self.population_dict.keys()}
+        r_dict = {key: ceil(value/1000) for key,value in self.recovered_dict.items() if key in self.population_dict.keys()}
+        d_dict = {key: ceil(value/1000) for key,value in self.death_dict.items() if key in self.population_dict.keys()}
 
         s_dict = dict(Counter(p_dict) - Counter(i_dict) - Counter(r_dict))
         r_dict = dict(Counter(r_dict) + Counter(d_dict))
@@ -271,13 +276,10 @@ class UnitedStatesMap():
 
 def main():
     avar = UnitedStatesMap()
-    sdl = avar.make_state("Montana")
+    sdl = avar.make_state("Georgia")
     print(avar.SIR())
     print(avar.graph(sdl))
 
 
 if __name__ == '__main__':
     main()
-
-
-
