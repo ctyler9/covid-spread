@@ -271,7 +271,7 @@ class UnitedStatesMap():
 
 def main():
     avar = UnitedStatesMap()
-    sdl = avar.make_state("Montana")
+    sdl = avar.make_state("Florida")
     print(avar.SIR())
     print(avar.graph(sdl))
 
