@@ -4,6 +4,8 @@ from util import *
 class UnitedStatesMap():
     def __init__(self):
         self.case_df = pd.read_csv("../data/case_data.csv")
+        self.case_df['Lat'].replace('', np.nan, inplace=True)
+        self.case_df.dropna(subset=['Lat'], inplace=True)
         self.states_graph = None
         self.state_list = self.case_df["Province_State"].unique()
 
@@ -36,8 +38,9 @@ class UnitedStatesMap():
         county_dict = county_dict.copy()
         county_dict["CTYNAME"] = county_dict["CTYNAME"].str.split(" ", expand=True)[0]
         county_dict = county_dict.set_index("CTYNAME").to_dict()
+        county_dict = county_dict["POPESTIMATE2019"]
 
-        return county_dict["POPESTIMATE2019"]
+        return county_dict
 
     def county_df(self, state):
         # Get list of cities for that state
@@ -70,6 +73,8 @@ class UnitedStatesMap():
             population = county_dict[county]
         except:
             print(str(county) + " not found")
+            print("Generating random population for county")
+            population = np.random.uniform(10000, 100000)
         if lat == None:
             pass
 
@@ -88,8 +93,8 @@ class UnitedStatesMap():
         # Degree boundaries
         degree_west = lat - degree_conversion
         degree_east = lat + degree_conversion
-        degree_north = lat + degree_conversion
-        degree_south = lat - degree_conversion
+        degree_north = lon + degree_conversion
+        degree_south = lon - degree_conversion
 
 
         #G.add_node(county, pos=(lat, lon))
@@ -97,7 +102,7 @@ class UnitedStatesMap():
         for i in range(int(population_scaled)):
             lat_r = np.random.uniform(degree_west, degree_east)
             lon_r = np.random.uniform(degree_south, degree_north)
-            G.add_node(county + "_" + str(i), pos=(lat_r, lon_r))
+            G.add_node(county + "_" + str(i), pos=(lon_r, lat_r))
             count += 1
 
         self.idx_dict[county] = count
@@ -149,13 +154,19 @@ class UnitedStatesMap():
         self.G = combined_graph
         return combined_graph
 
-    def combine_connected_graphs(self, num, alist):
-        combined_graph = self.connect_counties(alist)
+    def combine_connected_graphs(self, alist=None):
+        if alist != None:
+            combined_graph = self.connect_counties(alist)
+        else:
+            combined_graph = self.connect_counties(self.county_list)
         all_nodes = nx.get_node_attributes(combined_graph, 'pos')
         node_key = list(all_nodes.keys())
+        node_key_truncated = set([county.split("_")[0] for county in node_key])
 
         count = 0
-        while count <= num:
+        used_names = list()
+        while nx.number_connected_components(combined_graph) != 1:
+            unused_names = list(node_key_truncated - set(used_names))
             node1_k = np.random.choice(node_key)
             node2_k = np.random.choice(node_key)
 
@@ -164,9 +175,21 @@ class UnitedStatesMap():
             if name1 != name2:
                 node1 = all_nodes[node1_k]
                 node2 = all_nodes[node2_k]
-                if haversine(node1[0], node1[1], node2[0], node2[1]) < 1000:
-                    combined_graph.add_edge(node1_k, node2_k)
-                    count += 1
+                if haversine(node1[0], node1[1], node2[0], node2[1]) < 500:
+                    if count <= 100:
+                        combined_graph.add_edge(node1_k, node2_k)
+                        used_names.append(name1)
+                        used_names.append(name2)
+                        count += 1
+                    else:
+                        if name1 not in unused_names and name2 in unused_names:
+                            combined_graph.add_edge(node1_k, node2_k)
+                            count += 1
+
+            if count >= 200:
+                print(nx.number_connected_components(combined_graph))
+                print("too many iterations, a county is out of reachm, adjust distance constraint?")
+                break
 
         self.G = combined_graph
         return combined_graph
@@ -228,9 +251,9 @@ def main():
     #las = avar.add_edges_county("Fulton")
     #print(avar.graph(las))
 
-    #print(avar.county_population("Georgia"))
+    avar.county_df("Georgia")
 
-    sdl = avar.combine_connected_graphs(20, ["Fulton", "Henry", "Clayton", "Rabun", "Seminole", "Baker", "Bacon"])
+    sdl = avar.combine_connected_graphs()
     #sdl = avar.county_dict(10)
     #aec = avar.add_edges_county("Fulton")
     print(avar.graph(sdl))
