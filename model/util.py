@@ -16,6 +16,10 @@ import numba
 import os
 from collections import Counter
 import csv
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 def haversine(lon1, lat1, lon2, lat2):
     # convert decimal degrees to radians

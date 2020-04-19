@@ -3,7 +3,12 @@ from util import *
 
 class UnitedStatesMap():
     def __init__(self):
-        self.case_df = pd.read_csv("../data/case_data.csv")
+        # Get current data url
+        yesterday = dt.date.today() - dt.timedelta(days=1)
+        str_time = yesterday.strftime("%m-%d-%Y")
+        url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{}.csv".format(str_time)
+
+        self.case_df = pd.read_csv(url)
         self.case_df['Lat'].replace('', np.nan, inplace=True)
         self.case_df.dropna(subset=['Lat'], inplace=True)
         self.states_graph = None
@@ -99,7 +104,7 @@ class UnitedStatesMap():
 
         #G.add_node(county, pos=(lat, lon))
         count = 0
-        for i in range(int(population_scaled)):
+        for i in range(ceil(population_scaled)):
             lat_r = np.random.uniform(degree_west, degree_east)
             lon_r = np.random.uniform(degree_south, degree_north)
             G.add_node(county + "_" + str(i), pos=(lon_r, lat_r))
@@ -175,24 +180,39 @@ class UnitedStatesMap():
             if name1 != name2:
                 node1 = all_nodes[node1_k]
                 node2 = all_nodes[node2_k]
-                if haversine(node1[0], node1[1], node2[0], node2[1]) < 500:
-                    if count <= 100:
-                        combined_graph.add_edge(node1_k, node2_k)
-                        used_names.append(name1)
-                        used_names.append(name2)
-                        count += 1
-                    else:
-                        if name1 not in unused_names and name2 in unused_names:
+                if count <= 100:
+                    if haversine(node1[0], node1[1], node2[0], node2[1]) < 350:
                             combined_graph.add_edge(node1_k, node2_k)
+                            used_names.append(name1)
+                            used_names.append(name2)
                             count += 1
+                else:
+                    if len(unused_names) == 0:
+                        break
+                    used_names_edit = [name+"_"+str(0) for name in used_names]
+                    unused_names_edit = [name+"_"+str(0) for name in unused_names]
 
-            if count >= 200:
+                    node1_k = np.random.choice(used_names_edit)
+                    node2_k = np.random.choice(unused_names_edit)
+
+                    name1 = node1_k.split('_')[0]
+                    name2 = node2_k.split('_')[0]
+
+                    combined_graph.add_edge(node1_k, node2_k)
+                    used_names.append(name2)
+                    count += 1
+
+            if count >= 1000:
                 print(nx.number_connected_components(combined_graph))
-                print("too many iterations, a county is out of reachm, adjust distance constraint?")
+                print("too many iterations, a county is out of reach, adjust distance constraint?")
                 break
 
         self.G = combined_graph
         return combined_graph
+
+    # def make_state(self, state):
+    #     self.county_df(state)
+    #     return combine_connected_graphs()
 
     def graph(self, G):
         pos = nx.get_node_attributes(G, 'pos')
