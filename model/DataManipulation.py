@@ -153,7 +153,7 @@ class UnitedStatesMap():
             if name1 != name2:
                 node1 = all_nodes[node1_k]
                 node2 = all_nodes[node2_k]
-                if haversine(node1[0], node1[1], node2[0], node2[1]) < 100:
+                if haversine(node1[0], node1[1], node2[0], node2[1]) < 1000:
                     combined_graph.add_edge(node1_k, node2_k)
                     count += 1
 
@@ -217,7 +217,7 @@ def main():
     #las = avar.add_edges_county("Fulton")
     #print(avar.graph(las))
 
-    sdl = avar.combine_connected_graphs(20, ["Fulton", "Henry"])
+    sdl = avar.combine_connected_graphs(20, ["Fulton", "Henry", "Clayton", "Rabun"])
     #sdl = avar.county_dict(10)
     print(avar.graph(sdl))
     # print(avar.index_dict())

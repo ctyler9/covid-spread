@@ -152,13 +152,17 @@ class gispPrediction():
         df.set_index('real time',inplace=True)
         df = df.T
 
-        # Aggregates sum of infected
-        testdf = df
-        testdf[testdf==-1.0] = 0.0
-        sumofinfected = testdf.sum(axis=0)
-        df_sums = sumofinfected
+        df = df.replace(-1, 0)
+        df = df.reset_index()
+        df['county'] = df['index'].str.split('_', expand=True)[0]
+        df = df.drop(columns=['index'])
+        df = df.groupby(['county'], as_index=False).sum()
+
 
         self.df = df
+        df.to_csv("output.csv")
+
+
         return df
 
     def plot_graph(self, save_gif=False):
@@ -202,10 +206,11 @@ class gispPrediction():
             imageio.mimsave('movie.gif',images,duration=0.5)
 
 
+
 def main():
     ## VARIABLES
     #maximum elapsed time
-    tmax = 3
+    tmax = 2
 
     #beginning time
     t = 0
@@ -224,7 +229,7 @@ def main():
     avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index)
     avar.gillespie()
     avar.create_data()
-    avar.plot_graph()
+    #avar.plot_graph()
 
 
 
