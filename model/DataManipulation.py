@@ -102,7 +102,8 @@ class UnitedStatesMap():
             for person2, coordinates2 in all_nodes.items():
                 dist = haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
                 if dist < radius and dist != 0:
-                   graph.add_edge(person1, person2)
+                    if len(graph.edges(person1)) <= 3 and len(graph.edges(person2)) <= 3:
+                        graph.add_edge(person1, person2)
 
         while nx.number_connected_components(graph) != 1:
             node1_k = np.random.choice(node_key)
@@ -216,7 +217,7 @@ def main():
     #las = avar.add_edges_county("Fulton")
     #print(avar.graph(las))
 
-    sdl = avar.combine_connected_graphs(20, ["Fulton", "Henry", "Cobb", "DeKalb", "Bacon", "Clayton"])
+    sdl = avar.combine_connected_graphs(20, ["Fulton", "Henry"])
     #sdl = avar.county_dict(10)
     print(avar.graph(sdl))
     # print(avar.index_dict())

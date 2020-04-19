@@ -16,8 +16,6 @@ import numba
 import os
 import overpass
 from collections import Counter
-from itertools import product
-
 
 def haversine(lon1, lat1, lon2, lat2):
     # convert decimal degrees to radians

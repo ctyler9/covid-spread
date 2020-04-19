@@ -35,8 +35,6 @@ class gispPrediction():
         #de facto deep copy
         list_status = [i for i in status]
 
-
-
         # # prototype for individual region starting
         # for i in self.index.values():
         #     sus = np.zeros(self.S0)
@@ -160,7 +158,7 @@ class gispPrediction():
         sumofinfected = testdf.sum(axis=0)
         df_sums = sumofinfected
 
-
+        self.df = df
         return df
 
     def plot_graph(self, save_gif=False):
@@ -207,18 +205,18 @@ class gispPrediction():
 def main():
     ## VARIABLES
     #maximum elapsed time
-    tmax = 10
+    tmax = 3
 
     #beginning time
     t = 0
 
     # import graph from John Hopkin's Data
     avar = UnitedStatesMap()
-    graph = avar.connect_counties(["Fulton", "Henry"])
+    graph = avar.combine_connected_graphs(20, ["Fulton", "Henry"])
     index = avar.index_dict()
 
     #initial parameters
-    infection_rate = 0.01
+    infection_rate = 0.001
     recovery_rate = 0.06
 
     S0, I0, R0 = avar.SIR()
@@ -226,7 +224,7 @@ def main():
     avar = gispPrediction(tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index)
     avar.gillespie()
     avar.create_data()
-    #avar.plot_graph()
+    avar.plot_graph()
 
 
 
