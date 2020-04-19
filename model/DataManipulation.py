@@ -58,7 +58,7 @@ class UnitedStatesMap():
         deaths = temp["Deaths"].tolist()
         recovered = temp["Recovered"].tolist()
 
-        county = [county.split(',')[0] for county in county]
+        county = [county.split(',')[0] for county in county if county != state]
 
         self.county_list = county
         self.infected_dict = dict(zip(county, infected))
@@ -67,18 +67,18 @@ class UnitedStatesMap():
 
         return dict(zip(county, zip(lon, lat)))
 
-    def county_plot(self, county):
+    def county_plot(self, county, state):
         G = nx.Graph()
-        county_dict = self.county_df("Georgia")
+        county_dict = self.county_df(state)
         lon, lat = county_dict[county]
-        county_dict = self.county_population("Georgia")
+        county_dict = self.county_population(state)
 
         ## Exceptions
         try:
             population = county_dict[county]
         except:
             print(str(county) + " not found")
-            print("Generating random population for county")
+            print("Generating random population for " + str(county))
             population = np.random.uniform(10000, 100000)
         if lat == None:
             pass
@@ -114,8 +114,8 @@ class UnitedStatesMap():
 
         return G
 
-    def add_edges_county(self, county, radius=0.5):
-        graph = self.county_plot(county)
+    def add_edges_county(self, county, state, radius=0.5):
+        graph = self.county_plot(county, state)
         all_nodes = nx.get_node_attributes(graph, 'pos')
         node_key = list(all_nodes.keys())
 
@@ -123,7 +123,7 @@ class UnitedStatesMap():
             for person2, coordinates2 in all_nodes.items():
                 dist = haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
                 if dist < radius and dist != 0:
-                    if len(graph.edges(person1)) <= 3 and len(graph.edges(person2)) <= 3:
+                    if len(graph.edges(person1)) <= 2 and len(graph.edges(person2)) <= 2:
                         graph.add_edge(person1, person2)
 
         while nx.number_connected_components(graph) != 1:
@@ -135,19 +135,19 @@ class UnitedStatesMap():
 
         return graph
 
-    def county_dict(self, county_list=None):
+    def county_dict(self, state, county_list=None):
         if county_list == None:
-            self.county_df()
+            self.county_df(state)
             county_list = self.county_list
 
         county_dict = dict()
         for county in county_list:
-            county_dict[county] = self.add_edges_county(county)
+            county_dict[county] = self.add_edges_county(county, state)
 
         return county_dict
 
-    def connect_counties(self, county_list):
-        cd = self.county_dict(county_list)
+    def connect_counties(self, state, county_list):
+        cd = self.county_dict(state, county_list)
         count = 0
         for key in cd.keys():
             if count == 0:
@@ -159,11 +159,11 @@ class UnitedStatesMap():
         self.G = combined_graph
         return combined_graph
 
-    def combine_connected_graphs(self, alist=None):
+    def combine_connected_graphs(self, state, alist=None):
         if alist != None:
-            combined_graph = self.connect_counties(alist)
+            combined_graph = self.connect_counties(state, alist)
         else:
-            combined_graph = self.connect_counties(self.county_list)
+            combined_graph = self.connect_counties(state, self.county_list)
         all_nodes = nx.get_node_attributes(combined_graph, 'pos')
         node_key = list(all_nodes.keys())
         node_key_truncated = set([county.split("_")[0] for county in node_key])
@@ -210,9 +210,9 @@ class UnitedStatesMap():
         self.G = combined_graph
         return combined_graph
 
-    # def make_state(self, state):
-    #     self.county_df(state)
-    #     return combine_connected_graphs()
+    def make_state(self, state):
+        self.county_df(state)
+        return self.combine_connected_graphs(state)
 
     def graph(self, G):
         pos = nx.get_node_attributes(G, 'pos')
@@ -268,18 +268,9 @@ class UnitedStatesMap():
 
 def main():
     avar = UnitedStatesMap()
-    #las = avar.add_edges_county("Fulton")
-    #print(avar.graph(las))
-
-    avar.county_df("Georgia")
-
-    sdl = avar.combine_connected_graphs()
-    #sdl = avar.county_dict(10)
-    #aec = avar.add_edges_county("Fulton")
+    sdl = avar.make_state("Montana")
+    print(avar.SIR())
     print(avar.graph(sdl))
-    # print(avar.index_dict())
-    # print(avar.SIR())
-    #print(avar.graph(atl))
 
 
 if __name__ == '__main__':
