@@ -3,6 +3,9 @@ from util import *
 
 class UnitedStatesMap():
     def __init__(self):
+        global division_num
+        division_num = 1000
+
         # Get current data url
         yesterday = dt.date.today() - dt.timedelta(days=1)
         str_time = yesterday.strftime("%m-%d-%Y")
@@ -86,7 +89,7 @@ class UnitedStatesMap():
         print(county)
         self.population_dict[county] = population
         # number of nodes per thousand to represent the population
-        population_scaled = population / 1000
+        population_scaled = population / division_num
         g_ratio = 15/1063.937
 
         # 1 degree of coordinates = 69 miles
@@ -114,7 +117,7 @@ class UnitedStatesMap():
 
         return G
 
-    def add_edges_county(self, county, state, radius=0.5):
+    def add_edges_county(self, county, state, radius=0.5, max_node_degree=2, max_num_components=1):
         graph = self.county_plot(county, state)
         all_nodes = nx.get_node_attributes(graph, 'pos')
         node_key = list(all_nodes.keys())
@@ -123,10 +126,10 @@ class UnitedStatesMap():
             for person2, coordinates2 in all_nodes.items():
                 dist = haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
                 if dist < radius and dist != 0:
-                    if len(graph.edges(person1)) <= 2 and len(graph.edges(person2)) <= 2:
+                    if len(graph.edges(person1)) <= max_node_degree and len(graph.edges(person2)) <= max_node_degree:
                         graph.add_edge(person1, person2)
 
-        while nx.number_connected_components(graph) != 1:
+        while nx.number_connected_components(graph) > max_num_components:
             node1_k = np.random.choice(node_key)
             node2_k = np.random.choice(node_key)
 
@@ -225,15 +228,15 @@ class UnitedStatesMap():
         index_dict = dict()
 
         for county in self.population_dict.keys():
-            self.number_infected += self.infected_dict[county]/1000
-            self.number_recovered += (self.recovered_dict[county]/1000 + self.death_dict[county]/1000)
-            self.number_susceptible += (self.population_dict[county]/1000 - self.number_infected/1000 - self.number_recovered/1000)
+            self.number_infected += self.infected_dict[county]/division_num
+            self.number_recovered += (self.recovered_dict[county]/division_num + self.death_dict[county]/division_num)
+            self.number_susceptible += (self.population_dict[county]/division_num - self.number_infected/division_num - self.number_recovered/division_num)
 
 
-        p_dict = {key: ceil(value/1000) for key,value in self.population_dict.items()}
-        i_dict = {key: ceil(value/1000) for key,value in self.infected_dict.items() if key in self.population_dict.keys()}
-        r_dict = {key: ceil(value/1000) for key,value in self.recovered_dict.items() if key in self.population_dict.keys()}
-        d_dict = {key: ceil(value/1000) for key,value in self.death_dict.items() if key in self.population_dict.keys()}
+        p_dict = {key: ceil(value/division_num) for key,value in self.population_dict.items()}
+        i_dict = {key: ceil(value/division_num) for key,value in self.infected_dict.items() if key in self.population_dict.keys()}
+        r_dict = {key: ceil(value/division_num) for key,value in self.recovered_dict.items() if key in self.population_dict.keys()}
+        d_dict = {key: ceil(value/division_num) for key,value in self.death_dict.items() if key in self.population_dict.keys()}
 
         s_dict = dict(Counter(p_dict) - Counter(i_dict) - Counter(r_dict))
         r_dict = dict(Counter(r_dict) + Counter(d_dict))
