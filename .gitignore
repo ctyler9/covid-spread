@@ -42,3 +42,4 @@ data/.DS_Store
 model/.DS_Store
 .ipynb_checkpoints
 model/__pycache__
+model/output*.csv
