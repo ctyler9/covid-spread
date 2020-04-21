@@ -30,9 +30,9 @@ var svg_title = d3.select("#titlearea").append("svg")
 svg_title.append("text")
     .attr("text-anchor", "middle")
     .attr("y", 45)
-    .attr("x", 365)
+    .attr("x", 280)
     .attr("class", "title-text")
-    .text("COVID-19 Cases & Deaths by County:");
+    .text("COVID-19 Cases by County:");
 
 svg_title.append("text")
     .attr("text-anchor", "middle")
@@ -62,51 +62,51 @@ var max_date;
 
 var stats, counties, datelist, fipslist;
 
-//legend -- for deaths
-var x = d3.scaleLinear()
-    .domain([1, 85])
-    .rangeRound([325, 875]);
-
-var rangeGreys = ["#ffffff","#f0f0f0","#eaeaea","#d9d9d9","#c5c5c5","#bdbdbd", "#a9a9a9"
-      ,"#a0a0a0","#969696","#888888","#828282","#737373","#646464","#525252","#3e3e3e"
-      ,"#252525","#000000"];
-
-var color = d3.scaleThreshold()
-    .domain(d3.range(0, 85, 5))
-    .range(rangeGreys);
-
-var g = svg.append("g")
-    .attr("class", "key")
-    .attr("transform", "translate(60,-280)");//-150,45
-
-g.selectAll("rect")
-  .data(color.range().map(function(d) {
-      d = color.invertExtent(d);
-      if (d[0] == null) d[0] = x.domain()[0];
-      if (d[1] == null) d[1] = x.domain()[1];
-      return d;
-    }))
-  .enter().append("rect")
-    .attr("width", 8)
-    .attr("y", function(d) { return x(d[0]); })
-    .attr("height", function(d) { return x(d[1]) - x(d[0]); })
-    .attr("fill", function(d) { return color(d[0]); });
-
-g.append("text")
-    .attr("class", "caption")
-    .attr("x", x.range()[0] + 95)
-    .attr("y", -10)
-    .attr("fill", "#000")
-    .attr("transform", "rotate(90)")
-    .style("font", "10px sans-serif")
-    .text("Deaths from COVID-19");
-
-g.call(d3.axisLeft(x)
-    .tickSize(13)
-    .tickFormat(function(x, i) { return (i === 16) ? x + "+" : x ; })
-    .tickValues(color.domain()))
-  .select(".domain")
-    .remove();
+// //legend -- for deaths
+// var x = d3.scaleLinear()
+//     .domain([1, 85])
+//     .rangeRound([325, 875]);
+//
+// var rangeGreys = ["#ffffff","#f0f0f0","#eaeaea","#d9d9d9","#c5c5c5","#bdbdbd", "#a9a9a9"
+//       ,"#a0a0a0","#969696","#888888","#828282","#737373","#646464","#525252","#3e3e3e"
+//       ,"#252525","#000000"];
+//
+// var color = d3.scaleThreshold()
+//     .domain(d3.range(0, 85, 5))
+//     .range(rangeGreys);
+//
+// var g = svg.append("g")
+//     .attr("class", "key")
+//     .attr("transform", "translate(60,-280)");//-150,45
+//
+// g.selectAll("rect")
+//   .data(color.range().map(function(d) {
+//       d = color.invertExtent(d);
+//       if (d[0] == null) d[0] = x.domain()[0];
+//       if (d[1] == null) d[1] = x.domain()[1];
+//       return d;
+//     }))
+//   .enter().append("rect")
+//     .attr("width", 8)
+//     .attr("y", function(d) { return x(d[0]); })
+//     .attr("height", function(d) { return x(d[1]) - x(d[0]); })
+//     .attr("fill", function(d) { return color(d[0]); });
+//
+// g.append("text")
+//     .attr("class", "caption")
+//     .attr("x", x.range()[0] + 95)
+//     .attr("y", -10)
+//     .attr("fill", "#000")
+//     .attr("transform", "rotate(90)")
+//     .style("font", "10px sans-serif")
+//     .text("Deaths from COVID-19");
+//
+// g.call(d3.axisLeft(x)
+//     .tickSize(13)
+//     .tickFormat(function(x, i) { return (i === 16) ? x + "+" : x ; })
+//     .tickValues(color.domain()))
+//   .select(".domain")
+//     .remove();
 
 //legend -- for cases
 var bubbles_legend = svg.selectAll(".bubbles-legend")
@@ -165,17 +165,17 @@ var tip = d3.tip()
         }
         var state = regionMap.get(+d.id);
         var cases = covid_cases.get(at_date).get(d.id);
-        var deaths = covid_deaths.get(at_date).get(d.id);
+        // var deaths = covid_deaths.get(at_date).get(d.id);
         if (cases === undefined) {
              cases = 0;
         }
-        if (deaths === undefined) {
-             deaths = 0;
-        }
+        // if (deaths === undefined) {
+        //      deaths = 0;
+        // }
         return "State: " + strong(state) +
             "<br>County: " + strong(county) +
             "<br>Cases: " + strong(cases) +
-            "<br>Deaths: " + strong(deaths) + "</span>";
+            "</span>";
     });
 
 svg.call(tip);
@@ -212,13 +212,14 @@ d3.selectAll("button")
 
   var promises = [
     d3.json("./counties-10m.json"),
-    d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv", function(d) {
+    // d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv", function(d) {
+    d3.csv("./data/output_0.001_0.06.csv", function(d) {
         return {date: d.date
                 , county:d.county
                 , state:d.state
                 , fips:d.fips
-                , cases: +d.cases
-                , deaths: +d.deaths};
+                , cases: +d.cases * 1000};
+                //, deaths: +d.deaths};
     }),
     d3.csv("./data/state_county_map.csv", function(d) {
       regionMap.set(+d.fips, d.state);
@@ -279,10 +280,10 @@ function ready(data) {
 
   //slider to view the data as it happened
   var dispatch = d3.dispatch("input", "statechange");
-  var slider = d3.sliderBottom()
+  var slider = d3.sliderRight()
       .min(parseTime(min_date))
       .max(parseTime(max_date))
-      .width(500)
+      .height(500)
       .tickFormat(d3.timeFormat("%m-%d"))
       .tickValues(dates.forEach(element => parseTime(element)))
       .default(parseTime(max_date))
@@ -299,7 +300,7 @@ function ready(data) {
 
   svg.append("g")
       .call(slider)
-      .attr("transform", "translate(260,10)");
+      .attr("transform", "translate(100,70)");
 
   init_graph();
   redraw();
@@ -313,7 +314,7 @@ function init_graph() {
       return d.id.startsWith("13");
     }))
     .enter().append("path")
-      .attr("fill", function(d) { return color(0); })
+      .attr("fill", '#f0f0f0')//function(d) { return color(0); })
       .attr("d", path)
       .on("mouseover", handleMouseOver)
       .on("mouseout", handleMouseOut);
@@ -341,15 +342,16 @@ function redraw() {
 
   d3.selectAll(".counties")
       .selectAll("path").transition().duration(50)
-      .attr("fill", function(d) {
-          initCovidd = covid_deaths.get(at_date).get(d.id);
-          if (initCovidd === undefined || initCovidd < 1) {
-            value = 0;
-          } else {
-            value = initCovidd;
-          }
-          return color(value);
-      });
+      .attr("fill", '#f0f0f0');
+      // function(d) {
+      //     initCovidd = covid_deaths.get(at_date).get(d.id);
+      //     if (initCovidd === undefined || initCovidd < 1) {
+      //       value = 0;
+      //     } else {
+      //       value = initCovidd;
+      //     }
+      //     return color(value);
+      // });
 
   d3.selectAll(".bubbles")
       .transition().duration(2000)
