@@ -1,0 +1,469 @@
+,cases,county,date,fips,state
+0,7.363,Fairfield,2020-04-18,09001,Connecticut
+1,3.196,Hartford,2020-04-18,09003,Connecticut
+2,0.593,Litchfield,2020-04-18,09005,Connecticut
+3,0.448,Middlesex,2020-04-18,09007,Connecticut
+4,4.743,New Haven,2020-04-18,09009,Connecticut
+5,0.315,New London,2020-04-18,09011,Connecticut
+6,0.27,Tolland,2020-04-18,09013,Connecticut
+7,0.097,Windham,2020-04-18,09015,Connecticut
+8,0.035,Androscoggin,2020-04-18,23001,Maine
+9,0.002,Aroostook,2020-04-18,23003,Maine
+10,0.369,Cumberland,2020-04-18,23005,Maine
+11,0.011,Franklin,2020-04-18,23007,Maine
+12,0.006,Hancock,2020-04-18,23009,Maine
+13,0.096,Kennebec,2020-04-18,23011,Maine
+14,0.012,Knox,2020-04-18,23013,Maine
+15,0.012,Lincoln,2020-04-18,23015,Maine
+16,0.013,Oxford,2020-04-18,23017,Maine
+17,0.041,Penobscot,2020-04-18,23019,Maine
+18,0.015,Sagadahoc,2020-04-18,23023,Maine
+19,0.015,Somerset,2020-04-18,23025,Maine
+20,0.042,Waldo,2020-04-18,23027,Maine
+21,0.002,Washington,2020-04-18,23029,Maine
+22,0.175,York,2020-04-18,23031,Maine
+23,0.025,Belknap,2020-04-18,33001,New Hampshire
+24,0.03,Carroll,2020-04-18,33003,New Hampshire
+25,0.028,Cheshire,2020-04-18,33005,New Hampshire
+26,0.002,Coos,2020-04-18,33007,New Hampshire
+27,0.045,Grafton,2020-04-18,33009,New Hampshire
+28,0.552,Hillsborough,2020-04-18,33011,New Hampshire
+29,0.092,Merrimack,2020-04-18,33013,New Hampshire
+30,0.466,Rockingham,2020-04-18,33015,New Hampshire
+31,0.092,Strafford,2020-04-18,33017,New Hampshire
+32,0.01,Sullivan,2020-04-18,33019,New Hampshire
+33,0.059,Bristol,2020-04-18,44001,Rhode Island
+34,0.316,Kent,2020-04-18,44003,Rhode Island
+35,0.103,Newport,2020-04-18,44005,Rhode Island
+36,3.014,Providence,2020-04-18,44007,Rhode Island
+37,0.184,Washington,2020-04-18,44009,Rhode Island
+38,0.061,Addison,2020-04-18,50001,Vermont
+39,0.037,Bennington,2020-04-18,50003,Vermont
+40,0.01,Caledonia,2020-04-18,50005,Vermont
+41,0.384,Chittenden,2020-04-18,50007,Vermont
+42,0.001,Essex,2020-04-18,50009,Vermont
+43,0.09,Franklin,2020-04-18,50011,Vermont
+44,0.003,Grand Isle,2020-04-18,50013,Vermont
+45,0.023,Lamoille,2020-04-18,50015,Vermont
+46,0.005,Orange,2020-04-18,50017,Vermont
+47,0.009,Orleans,2020-04-18,50019,Vermont
+48,0.042,Rutland,2020-04-18,50021,Vermont
+49,0.031,Washington,2020-04-18,50023,Vermont
+50,0.063,Windham,2020-04-18,50025,Vermont
+51,0.034,Windsor,2020-04-18,50027,Vermont
+52,7.434,Fairfield,2020-04-19,09001,Connecticut
+53,3.351,Hartford,2020-04-19,09003,Connecticut
+54,0.6,Litchfield,2020-04-19,09005,Connecticut
+55,0.462,Middlesex,2020-04-19,09007,Connecticut
+56,4.871,New Haven,2020-04-19,09009,Connecticut
+57,0.339,New London,2020-04-19,09011,Connecticut
+58,0.276,Tolland,2020-04-19,09013,Connecticut
+59,0.1,Windham,2020-04-19,09015,Connecticut
+60,0.035,Androscoggin,2020-04-19,23001,Maine
+61,0.002,Aroostook,2020-04-19,23003,Maine
+62,0.378,Cumberland,2020-04-19,23005,Maine
+63,0.012,Franklin,2020-04-19,23007,Maine
+64,0.006,Hancock,2020-04-19,23009,Maine
+65,0.097,Kennebec,2020-04-19,23011,Maine
+66,0.012,Knox,2020-04-19,23013,Maine
+67,0.012,Lincoln,2020-04-19,23015,Maine
+68,0.014,Oxford,2020-04-19,23017,Maine
+69,0.043,Penobscot,2020-04-19,23019,Maine
+70,0.016,Sagadahoc,2020-04-19,23023,Maine
+71,0.016,Somerset,2020-04-19,23025,Maine
+72,0.042,Waldo,2020-04-19,23027,Maine
+73,0.002,Washington,2020-04-19,23029,Maine
+74,0.177,York,2020-04-19,23031,Maine
+75,0.026,Belknap,2020-04-19,33001,New Hampshire
+76,0.03,Carroll,2020-04-19,33003,New Hampshire
+77,0.029,Cheshire,2020-04-19,33005,New Hampshire
+78,0.002,Coos,2020-04-19,33007,New Hampshire
+79,0.045,Grafton,2020-04-19,33009,New Hampshire
+80,0.581,Hillsborough,2020-04-19,33011,New Hampshire
+81,0.094,Merrimack,2020-04-19,33013,New Hampshire
+82,0.479,Rockingham,2020-04-19,33015,New Hampshire
+83,0.094,Strafford,2020-04-19,33017,New Hampshire
+84,0.01,Sullivan,2020-04-19,33019,New Hampshire
+85,0.065,Bristol,2020-04-19,44001,Rhode Island
+86,0.341,Kent,2020-04-19,44003,Rhode Island
+87,0.105,Newport,2020-04-19,44005,Rhode Island
+88,3.292,Providence,2020-04-19,44007,Rhode Island
+89,0.188,Washington,2020-04-19,44009,Rhode Island
+90,0.061,Addison,2020-04-19,50001,Vermont
+91,0.037,Bennington,2020-04-19,50003,Vermont
+92,0.012,Caledonia,2020-04-19,50005,Vermont
+93,0.385,Chittenden,2020-04-19,50007,Vermont
+94,0.002,Essex,2020-04-19,50009,Vermont
+95,0.091,Franklin,2020-04-19,50011,Vermont
+96,0.003,Grand Isle,2020-04-19,50013,Vermont
+97,0.023,Lamoille,2020-04-19,50015,Vermont
+98,0.005,Orange,2020-04-19,50017,Vermont
+99,0.009,Orleans,2020-04-19,50019,Vermont
+100,0.043,Rutland,2020-04-19,50021,Vermont
+101,0.032,Washington,2020-04-19,50023,Vermont
+102,0.062,Windham,2020-04-19,50025,Vermont
+103,0.037,Windsor,2020-04-19,50027,Vermont
+104,8.32,Fairfield,2020-04-20,09001,Connecticut
+105,3.823,Hartford,2020-04-20,09003,Connecticut
+106,0.639,Litchfield,2020-04-20,09005,Connecticut
+107,0.484,Middlesex,2020-04-20,09007,Connecticut
+108,5.272,New Haven,2020-04-20,09009,Connecticut
+109,0.356,New London,2020-04-20,09011,Connecticut
+110,0.299,Tolland,2020-04-20,09013,Connecticut
+111,0.108,Windham,2020-04-20,09015,Connecticut
+112,0.035,Androscoggin,2020-04-20,23001,Maine
+113,0.002,Aroostook,2020-04-20,23003,Maine
+114,0.38,Cumberland,2020-04-20,23005,Maine
+115,0.013,Franklin,2020-04-20,23007,Maine
+116,0.006,Hancock,2020-04-20,23009,Maine
+117,0.097,Kennebec,2020-04-20,23011,Maine
+118,0.012,Knox,2020-04-20,23013,Maine
+119,0.012,Lincoln,2020-04-20,23015,Maine
+120,0.014,Oxford,2020-04-20,23017,Maine
+121,0.044,Penobscot,2020-04-20,23019,Maine
+122,0.016,Sagadahoc,2020-04-20,23023,Maine
+123,0.016,Somerset,2020-04-20,23025,Maine
+124,0.043,Waldo,2020-04-20,23027,Maine
+125,0.002,Washington,2020-04-20,23029,Maine
+126,0.181,York,2020-04-20,23031,Maine
+127,0.026,Belknap,2020-04-20,33001,New Hampshire
+128,0.03,Carroll,2020-04-20,33003,New Hampshire
+129,0.03,Cheshire,2020-04-20,33005,New Hampshire
+130,0.002,Coos,2020-04-20,33007,New Hampshire
+131,0.045,Grafton,2020-04-20,33009,New Hampshire
+132,0.604,Hillsborough,2020-04-20,33011,New Hampshire
+133,0.096,Merrimack,2020-04-20,33013,New Hampshire
+134,0.489,Rockingham,2020-04-20,33015,New Hampshire
+135,0.111,Strafford,2020-04-20,33017,New Hampshire
+136,0.01,Sullivan,2020-04-20,33019,New Hampshire
+137,0.067,Bristol,2020-04-20,44001,Rhode Island
+138,0.366,Kent,2020-04-20,44003,Rhode Island
+139,0.107,Newport,2020-04-20,44005,Rhode Island
+140,3.491,Providence,2020-04-20,44007,Rhode Island
+141,0.198,Washington,2020-04-20,44009,Rhode Island
+142,0.061,Addison,2020-04-20,50001,Vermont
+143,0.037,Bennington,2020-04-20,50003,Vermont
+144,0.012,Caledonia,2020-04-20,50005,Vermont
+145,0.385,Chittenden,2020-04-20,50007,Vermont
+146,0.002,Essex,2020-04-20,50009,Vermont
+147,0.093,Franklin,2020-04-20,50011,Vermont
+148,0.003,Grand Isle,2020-04-20,50013,Vermont
+149,0.023,Lamoille,2020-04-20,50015,Vermont
+150,0.005,Orange,2020-04-20,50017,Vermont
+151,0.009,Orleans,2020-04-20,50019,Vermont
+152,0.043,Rutland,2020-04-20,50021,Vermont
+153,0.032,Washington,2020-04-20,50023,Vermont
+154,0.063,Windham,2020-04-20,50025,Vermont
+155,0.037,Windsor,2020-04-20,50027,Vermont
+156,13.0,Fairfield,2020-04-22,09001,Connecticut
+157,3.0,Tolland,2020-04-22,09013,Connecticut
+158,1.0,Orange,2020-04-22,50017,Vermont
+159,0.0,Lamoille,2020-04-22,50015,Vermont
+160,0.0,Knox,2020-04-22,23013,Maine
+161,0.0,Grand Isle,2020-04-22,50013,Vermont
+162,0.0,Bristol,2020-04-22,44001,Rhode Island
+163,0.0,Franklin,2020-04-22,50011,Vermont
+164,0.0,Androscoggin,2020-04-22,23001,Maine
+165,0.0,Essex,2020-04-22,50009,Vermont
+166,0.0,Chittenden,2020-04-22,50007,Vermont
+167,0.0,Aroostook,2020-04-22,23003,Maine
+168,0.0,Caledonia,2020-04-22,50005,Vermont
+169,0.0,Bennington,2020-04-22,50003,Vermont
+170,7.0,Providence,2020-04-22,44007,Rhode Island
+171,0.0,Cumberland,2020-04-22,23005,Maine
+172,0.0,Addison,2020-04-22,50001,Vermont
+173,2.0,York,2020-04-22,23031,Maine
+174,1.0,Kent,2020-04-22,44003,Rhode Island
+175,0.0,Franklin,2020-04-22,23007,Maine
+176,0.0,Washington,2020-04-22,23029,Maine
+177,0.0,Waldo,2020-04-22,23027,Maine
+178,0.0,Hancock,2020-04-22,23009,Maine
+179,0.0,Somerset,2020-04-22,23025,Maine
+180,0.0,Sagadahoc,2020-04-22,23023,Maine
+181,0.0,Penobscot,2020-04-22,23019,Maine
+182,0.0,Kennebec,2020-04-22,23011,Maine
+183,0.0,Oxford,2020-04-22,23017,Maine
+184,0.0,Newport,2020-04-22,44005,Rhode Island
+185,0.0,Lincoln,2020-04-22,23015,Maine
+186,0.0,Orleans,2020-04-22,50019,Vermont
+187,0.0,Rutland,2020-04-22,50021,Vermont
+188,0.0,Windham,2020-04-22,09015,Connecticut
+189,0.0,Windsor,2020-04-22,50027,Vermont
+190,1.0,Coos,2020-04-22,33007,New Hampshire
+191,0.0,Cheshire,2020-04-22,33005,New Hampshire
+192,0.0,Carroll,2020-04-22,33003,New Hampshire
+193,0.0,Strafford,2020-04-22,33017,New Hampshire
+194,3.0,Middlesex,2020-04-22,09007,Connecticut
+195,0.0,Grafton,2020-04-22,33009,New Hampshire
+196,0.0,Belknap,2020-04-22,33001,New Hampshire
+197,15.0,Hartford,2020-04-22,09003,Connecticut
+198,1.0,Washington,2020-04-22,44009,Rhode Island
+199,1.0,Hillsborough,2020-04-22,33011,New Hampshire
+200,3.0,Litchfield,2020-04-22,09005,Connecticut
+201,1.0,Windham,2020-04-22,50025,Vermont
+202,0.0,Rockingham,2020-04-22,33015,New Hampshire
+203,0.0,New London,2020-04-22,09011,Connecticut
+204,1.0,Sullivan,2020-04-22,33019,New Hampshire
+205,0.0,Merrimack,2020-04-22,33013,New Hampshire
+206,2.0,New Haven,2020-04-22,09009,Connecticut
+207,0.0,Washington,2020-04-22,50023,Vermont
+208,0.0,Hillsborough,2020-04-23,33011,New Hampshire
+209,2.0,Coos,2020-04-23,33007,New Hampshire
+210,9.0,Kent,2020-04-23,44003,Rhode Island
+211,0.0,Waldo,2020-04-23,23027,Maine
+212,0.0,Somerset,2020-04-23,23025,Maine
+213,0.0,Merrimack,2020-04-23,33013,New Hampshire
+214,0.0,Grafton,2020-04-23,33009,New Hampshire
+215,0.0,Sagadahoc,2020-04-23,23023,Maine
+216,0.0,Oxford,2020-04-23,23017,Maine
+217,0.0,Washington,2020-04-23,23029,Maine
+218,0.0,Penobscot,2020-04-23,23019,Maine
+219,0.0,Lincoln,2020-04-23,23015,Maine
+220,6.0,Sullivan,2020-04-23,33019,New Hampshire
+221,0.0,Carroll,2020-04-23,33003,New Hampshire
+222,0.0,Rockingham,2020-04-23,33015,New Hampshire
+223,0.0,Orleans,2020-04-23,50019,Vermont
+224,2.0,Orange,2020-04-23,50017,Vermont
+225,0.0,Washington,2020-04-23,50023,Vermont
+226,0.0,Lamoille,2020-04-23,50015,Vermont
+227,0.0,Grand Isle,2020-04-23,50013,Vermont
+228,7.0,Windham,2020-04-23,50025,Vermont
+229,0.0,Franklin,2020-04-23,50011,Vermont
+230,0.0,Bristol,2020-04-23,44001,Rhode Island
+231,0.0,Essex,2020-04-23,50009,Vermont
+232,0.0,Windsor,2020-04-23,50027,Vermont
+233,0.0,Chittenden,2020-04-23,50007,Vermont
+234,0.0,Caledonia,2020-04-23,50005,Vermont
+235,0.0,Belknap,2020-04-23,33001,New Hampshire
+236,0.0,Bennington,2020-04-23,50003,Vermont
+237,0.0,Addison,2020-04-23,50001,Vermont
+238,0.0,Rutland,2020-04-23,50021,Vermont
+239,0.0,Cheshire,2020-04-23,33005,New Hampshire
+240,0.0,Strafford,2020-04-23,33017,New Hampshire
+241,0.0,Newport,2020-04-23,44005,Rhode Island
+242,1.0,York,2020-04-23,23031,Maine
+243,0.0,New London,2020-04-23,09011,Connecticut
+244,3.0,Washington,2020-04-23,44009,Rhode Island
+245,0.0,Windham,2020-04-23,09015,Connecticut
+246,9.0,New Haven,2020-04-23,09009,Connecticut
+247,0.0,Androscoggin,2020-04-23,23001,Maine
+248,18.0,Litchfield,2020-04-23,09005,Connecticut
+249,0.0,Kennebec,2020-04-23,23011,Maine
+250,0.0,Franklin,2020-04-23,23007,Maine
+251,27.0,Middlesex,2020-04-23,09007,Connecticut
+252,108.0,Hartford,2020-04-23,09003,Connecticut
+253,0.0,Hancock,2020-04-23,23009,Maine
+254,19.0,Providence,2020-04-23,44007,Rhode Island
+255,0.0,Aroostook,2020-04-23,23003,Maine
+256,14.0,Tolland,2020-04-23,09013,Connecticut
+257,0.0,Knox,2020-04-23,23013,Maine
+258,106.0,Fairfield,2020-04-23,09001,Connecticut
+259,0.0,Cumberland,2020-04-23,23005,Maine
+260,0.0,Lamoille,2020-04-24,50015,Vermont
+261,0.0,Knox,2020-04-24,23013,Maine
+262,57.0,Tolland,2020-04-24,09013,Connecticut
+263,58.0,Providence,2020-04-24,44007,Rhode Island
+264,0.0,Franklin,2020-04-24,50011,Vermont
+265,10.0,Orange,2020-04-24,50017,Vermont
+266,0.0,Essex,2020-04-24,50009,Vermont
+267,0.0,Androscoggin,2020-04-24,23001,Maine
+268,2.0,Bristol,2020-04-24,44001,Rhode Island
+269,0.0,Chittenden,2020-04-24,50007,Vermont
+270,0.0,Caledonia,2020-04-24,50005,Vermont
+271,0.0,Bennington,2020-04-24,50003,Vermont
+272,4.0,Windham,2020-04-24,09015,Connecticut
+273,0.0,Orleans,2020-04-24,50019,Vermont
+274,0.0,Grand Isle,2020-04-24,50013,Vermont
+275,7.0,New London,2020-04-24,09011,Connecticut
+276,0.0,Merrimack,2020-04-24,33013,New Hampshire
+277,492.0,Fairfield,2020-04-24,09001,Connecticut
+278,1.0,Hillsborough,2020-04-24,33011,New Hampshire
+279,0.0,Grafton,2020-04-24,33009,New Hampshire
+280,603.0,Hartford,2020-04-24,09003,Connecticut
+281,14.0,Coos,2020-04-24,33007,New Hampshire
+282,12.0,Washington,2020-04-24,44009,Rhode Island
+283,0.0,Cheshire,2020-04-24,33005,New Hampshire
+284,35.0,Sullivan,2020-04-24,33019,New Hampshire
+285,107.0,Litchfield,2020-04-24,09005,Connecticut
+286,0.0,Carroll,2020-04-24,33003,New Hampshire
+287,0.0,Belknap,2020-04-24,33001,New Hampshire
+288,139.0,Middlesex,2020-04-24,09007,Connecticut
+289,0.0,Windsor,2020-04-24,50027,Vermont
+290,10.0,Windham,2020-04-24,50025,Vermont
+291,50.0,New Haven,2020-04-24,09009,Connecticut
+292,0.0,Washington,2020-04-24,50023,Vermont
+293,0.0,Rutland,2020-04-24,50021,Vermont
+294,0.0,Strafford,2020-04-24,33017,New Hampshire
+295,0.0,Aroostook,2020-04-24,23003,Maine
+296,0.0,Rockingham,2020-04-24,33015,New Hampshire
+297,15.0,Kent,2020-04-24,44003,Rhode Island
+298,0.0,Penobscot,2020-04-24,23019,Maine
+299,0.0,Hancock,2020-04-24,23009,Maine
+300,0.0,Franklin,2020-04-24,23007,Maine
+301,0.0,Sagadahoc,2020-04-24,23023,Maine
+302,0.0,Cumberland,2020-04-24,23005,Maine
+303,0.0,Oxford,2020-04-24,23017,Maine
+304,0.0,Kennebec,2020-04-24,23011,Maine
+305,0.0,York,2020-04-24,23031,Maine
+306,0.0,Addison,2020-04-24,50001,Vermont
+307,0.0,Washington,2020-04-24,23029,Maine
+308,0.0,Somerset,2020-04-24,23025,Maine
+309,0.0,Lincoln,2020-04-24,23015,Maine
+310,0.0,Waldo,2020-04-24,23027,Maine
+311,0.0,Newport,2020-04-24,44005,Rhode Island
+312,0.0,Washington,2020-04-25,50023,Vermont
+313,0.0,Windsor,2020-04-25,50027,Vermont
+314,12.0,New London,2020-04-25,09011,Connecticut
+315,0.0,Sagadahoc,2020-04-25,23023,Maine
+316,0.0,Somerset,2020-04-25,23025,Maine
+317,0.0,Orleans,2020-04-25,50019,Vermont
+318,13.0,Windham,2020-04-25,50025,Vermont
+319,40.0,Sullivan,2020-04-25,33019,New Hampshire
+320,141.0,Middlesex,2020-04-25,09007,Connecticut
+321,0.0,Hancock,2020-04-25,23009,Maine
+322,0.0,Rutland,2020-04-25,50021,Vermont
+323,67.0,New Haven,2020-04-25,09009,Connecticut
+324,0.0,Addison,2020-04-25,50001,Vermont
+325,0.0,Belknap,2020-04-25,33001,New Hampshire
+326,9.0,Rockingham,2020-04-25,33015,New Hampshire
+327,0.0,Merrimack,2020-04-25,33013,New Hampshire
+328,842.0,Fairfield,2020-04-25,09001,Connecticut
+329,91.0,Hillsborough,2020-04-25,33011,New Hampshire
+330,17.0,Washington,2020-04-25,44009,Rhode Island
+331,0.0,Grafton,2020-04-25,33009,New Hampshire
+332,0.0,Lincoln,2020-04-25,23015,Maine
+333,0.0,Penobscot,2020-04-25,23019,Maine
+334,0.0,Kennebec,2020-04-25,23011,Maine
+335,26.0,Coos,2020-04-25,33007,New Hampshire
+336,0.0,Oxford,2020-04-25,23017,Maine
+337,0.0,Cheshire,2020-04-25,33005,New Hampshire
+338,165.0,Litchfield,2020-04-25,09005,Connecticut
+339,0.0,Newport,2020-04-25,44005,Rhode Island
+340,0.0,Carroll,2020-04-25,33003,New Hampshire
+341,14.0,Orange,2020-04-25,50017,Vermont
+342,818.0,Hartford,2020-04-25,09003,Connecticut
+343,0.0,Strafford,2020-04-25,33017,New Hampshire
+344,38.0,Kent,2020-04-25,44003,Rhode Island
+345,0.0,Franklin,2020-04-25,23007,Maine
+346,0.0,Aroostook,2020-04-25,23003,Maine
+347,0.0,Bennington,2020-04-25,50003,Vermont
+348,13.0,Bristol,2020-04-25,44001,Rhode Island
+349,4.0,York,2020-04-25,23031,Maine
+350,0.0,Caledonia,2020-04-25,50005,Vermont
+351,0.0,Androscoggin,2020-04-25,23001,Maine
+352,0.0,Chittenden,2020-04-25,50007,Vermont
+353,0.0,Cumberland,2020-04-25,23005,Maine
+354,0.0,Essex,2020-04-25,50009,Vermont
+355,58.0,Windham,2020-04-25,09015,Connecticut
+356,4.0,Franklin,2020-04-25,50011,Vermont
+357,112.0,Providence,2020-04-25,44007,Rhode Island
+358,0.0,Waldo,2020-04-25,23027,Maine
+359,0.0,Grand Isle,2020-04-25,50013,Vermont
+360,0.0,Washington,2020-04-25,23029,Maine
+361,0.0,Knox,2020-04-25,23013,Maine
+362,111.0,Tolland,2020-04-25,09013,Connecticut
+363,0.0,Lamoille,2020-04-25,50015,Vermont
+364,0.0,Orleans,2020-04-26,50019,Vermont
+365,43.0,Cheshire,2020-04-26,33005,New Hampshire
+366,0.0,Lamoille,2020-04-26,50015,Vermont
+367,0.0,Androscoggin,2020-04-26,23001,Maine
+368,780.0,Hartford,2020-04-26,09003,Connecticut
+369,37.0,Washington,2020-04-26,44009,Rhode Island
+370,0.0,Caledonia,2020-04-26,50005,Vermont
+371,27.0,Coos,2020-04-26,33007,New Hampshire
+372,0.0,Somerset,2020-04-26,23025,Maine
+373,11.0,New London,2020-04-26,09011,Connecticut
+374,0.0,Lincoln,2020-04-26,23015,Maine
+375,8.0,York,2020-04-26,23031,Maine
+376,230.0,Providence,2020-04-26,44007,Rhode Island
+377,0.0,Bennington,2020-04-26,50003,Vermont
+378,824.0,Fairfield,2020-04-26,09001,Connecticut
+379,39.0,Sullivan,2020-04-26,33019,New Hampshire
+380,273.0,Hillsborough,2020-04-26,33011,New Hampshire
+381,98.0,Rockingham,2020-04-26,33015,New Hampshire
+382,0.0,Aroostook,2020-04-26,23003,Maine
+383,0.0,Kennebec,2020-04-26,23011,Maine
+384,18.0,Orange,2020-04-26,50017,Vermont
+385,40.0,Bristol,2020-04-26,44001,Rhode Island
+386,0.0,Merrimack,2020-04-26,33013,New Hampshire
+387,0.0,Addison,2020-04-26,50001,Vermont
+388,0.0,Knox,2020-04-26,23013,Maine
+389,0.0,Grafton,2020-04-26,33009,New Hampshire
+390,0.0,Oxford,2020-04-26,23017,Maine
+391,59.0,New Haven,2020-04-26,09009,Connecticut
+392,0.0,Chittenden,2020-04-26,50007,Vermont
+393,1.0,Newport,2020-04-26,44005,Rhode Island
+394,16.0,Windham,2020-04-26,50025,Vermont
+395,16.0,Rutland,2020-04-26,50021,Vermont
+396,0.0,Washington,2020-04-26,50023,Vermont
+397,134.0,Middlesex,2020-04-26,09007,Connecticut
+398,0.0,Grand Isle,2020-04-26,50013,Vermont
+399,0.0,Sagadahoc,2020-04-26,23023,Maine
+400,134.0,Tolland,2020-04-26,09013,Connecticut
+401,109.0,Windham,2020-04-26,09015,Connecticut
+402,0.0,Windsor,2020-04-26,50027,Vermont
+403,1.0,Strafford,2020-04-26,33017,New Hampshire
+404,61.0,Kent,2020-04-26,44003,Rhode Island
+405,0.0,Penobscot,2020-04-26,23019,Maine
+406,0.0,Essex,2020-04-26,50009,Vermont
+407,0.0,Belknap,2020-04-26,33001,New Hampshire
+408,0.0,Franklin,2020-04-26,23007,Maine
+409,0.0,Washington,2020-04-26,23029,Maine
+410,155.0,Litchfield,2020-04-26,09005,Connecticut
+411,0.0,Hancock,2020-04-26,23009,Maine
+412,0.0,Cumberland,2020-04-26,23005,Maine
+413,0.0,Carroll,2020-04-26,33003,New Hampshire
+414,8.0,Franklin,2020-04-26,50011,Vermont
+415,0.0,Waldo,2020-04-26,23027,Maine
+416,99.0,Rockingham,2020-04-27,33015,New Hampshire
+417,40.0,Bristol,2020-04-27,44001,Rhode Island
+418,1.0,Strafford,2020-04-27,33017,New Hampshire
+419,1.0,Newport,2020-04-27,44005,Rhode Island
+420,231.0,Providence,2020-04-27,44007,Rhode Island
+421,39.0,Sullivan,2020-04-27,33019,New Hampshire
+422,61.0,Kent,2020-04-27,44003,Rhode Island
+423,0.0,Caledonia,2020-04-27,50005,Vermont
+424,273.0,Hillsborough,2020-04-27,33011,New Hampshire
+425,0.0,Penobscot,2020-04-27,23019,Maine
+426,0.0,Oxford,2020-04-27,23017,Maine
+427,0.0,Lincoln,2020-04-27,23015,Maine
+428,0.0,Knox,2020-04-27,23013,Maine
+429,0.0,Kennebec,2020-04-27,23011,Maine
+430,0.0,Hancock,2020-04-27,23009,Maine
+431,0.0,Franklin,2020-04-27,23007,Maine
+432,0.0,Cumberland,2020-04-27,23005,Maine
+433,0.0,Sagadahoc,2020-04-27,23023,Maine
+434,0.0,Aroostook,2020-04-27,23003,Maine
+435,109.0,Windham,2020-04-27,09015,Connecticut
+436,134.0,Tolland,2020-04-27,09013,Connecticut
+437,11.0,New London,2020-04-27,09011,Connecticut
+438,59.0,New Haven,2020-04-27,09009,Connecticut
+439,134.0,Middlesex,2020-04-27,09007,Connecticut
+440,155.0,Litchfield,2020-04-27,09005,Connecticut
+441,779.0,Hartford,2020-04-27,09003,Connecticut
+442,824.0,Fairfield,2020-04-27,09001,Connecticut
+443,0.0,Androscoggin,2020-04-27,23001,Maine
+444,0.0,Somerset,2020-04-27,23025,Maine
+445,0.0,Waldo,2020-04-27,23027,Maine
+446,0.0,Washington,2020-04-27,23029,Maine
+447,0.0,Grafton,2020-04-27,33009,New Hampshire
+448,27.0,Coos,2020-04-27,33007,New Hampshire
+449,43.0,Cheshire,2020-04-27,33005,New Hampshire
+450,0.0,Carroll,2020-04-27,33003,New Hampshire
+451,0.0,Belknap,2020-04-27,33001,New Hampshire
+452,0.0,Windsor,2020-04-27,50027,Vermont
+453,16.0,Windham,2020-04-27,50025,Vermont
+454,0.0,Washington,2020-04-27,50023,Vermont
+455,17.0,Rutland,2020-04-27,50021,Vermont
+456,0.0,Orleans,2020-04-27,50019,Vermont
+457,18.0,Orange,2020-04-27,50017,Vermont
+458,0.0,Lamoille,2020-04-27,50015,Vermont
+459,0.0,Grand Isle,2020-04-27,50013,Vermont
+460,8.0,Franklin,2020-04-27,50011,Vermont
+461,0.0,Essex,2020-04-27,50009,Vermont
+462,0.0,Chittenden,2020-04-27,50007,Vermont
+463,0.0,Bennington,2020-04-27,50003,Vermont
+464,0.0,Addison,2020-04-27,50001,Vermont
+465,9.0,York,2020-04-27,23031,Maine
+466,0.0,Merrimack,2020-04-27,33013,New Hampshire
+467,37.0,Washington,2020-04-27,44009,Rhode Island
