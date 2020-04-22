@@ -53,7 +53,7 @@ var regionMap = d3.map();
 var countyMap = d3.map();
 var parseTime = d3.timeParse("%Y-%m-%d");
 
-var projection = d3.geoAlbersUsa().scale(6000).translate([-650, -230])
+var projection = d3.geoAlbersUsa().scale(4000).translate([-800, 900])
 var path = d3.geoPath().projection(projection);
 var dates = [];
 var at_date;
@@ -110,35 +110,35 @@ var stats, counties, datelist, fipslist;
 
 //legend -- for cases
 var bubbles_legend = svg.selectAll(".bubbles-legend")
-    .data([1000, 2500, 5000])
+    .data([20000, 50000, 100000])
     .enter().append("circle")
     .attr("class", "bubbles-legend")
     .attr("r", function(d) {
-      return Math.sqrt(d) / (Math.PI / 3);
+      return Math.sqrt(d) / (Math.PI * 2);
     })
-    .attr("transform", "translate(990,550)")
-    .attr("cy", d => -(Math.sqrt(d) / (Math.PI / 3)));
+    .attr("transform", "translate(800,550)")
+    .attr("cy", d => -(Math.sqrt(d) / (Math.PI * 2)));
 
 svg.append("text")
-      .attr("transform", "translate(990,503)")
+      .attr("transform", "translate(800,516)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .attr("fill", "#900")
-      .text("1k");
+      .text("20k");
 svg.append("text")
-      .attr("transform", "translate(990,470)")
+      .attr("transform", "translate(800,490)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .attr("fill", "#900")
-      .text("2.5k");
+      .text("50k");
 svg.append("text")
-      .attr("transform", "translate(990,430)")
+      .attr("transform", "translate(800,460)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .attr("fill", "#900")
-      .text("5k");
+      .text("100k");
 svg.append("text")
-      .attr("transform", "translate(990,563)")
+      .attr("transform", "translate(800,563)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .text("Cases of COVID-19");
@@ -197,7 +197,7 @@ function checker(x) {
 }
 
 function rad(id) {
-  return ( (!show_bubbles) ? 0 : Math.sqrt(checker(covid_cases.get(at_date).get(id))) / (Math.PI / 3));
+  return ( (!show_bubbles) ? 0 : Math.sqrt(checker(covid_cases.get(at_date).get(id))) / (Math.PI * 2));
 }
 
 //button details
@@ -213,7 +213,7 @@ d3.selectAll("button")
   var promises = [
     d3.json("./counties-10m.json"),
     // d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv", function(d) {
-    d3.csv("./data/output_0.001_0.06.csv", function(d) {
+    d3.csv("../data/combined_0.001_0.06.csv", function(d) {
         return {date: d.date
                 , county:d.county
                 , state:d.state
@@ -311,7 +311,8 @@ function init_graph() {
       .attr("class", "counties")
     .selectAll("path")
     .data(topojson.feature(us, us.objects.counties).features.filter(function(d) {
-      return d.id.startsWith("13");
+      //23 = maine 50 = vermont
+      return d.id.startsWith("23") || d.id.startsWith("50") || d.id.startsWith("44") || d.id.startsWith("33") || d.id.startsWith("09");
     }))
     .enter().append("path")
       .attr("fill", '#f0f0f0')//function(d) { return color(0); })
@@ -326,7 +327,7 @@ function init_graph() {
 
   var bubbies = svg.selectAll(".bubbles")
       .data(topojson.feature(us, us.objects.counties).features.filter(function(d) {
-        return d.id.startsWith("13");
+        return d.id.startsWith("23") || d.id.startsWith("50") || d.id.startsWith("44") || d.id.startsWith("33") || d.id.startsWith("09");
       }))
       .enter().append("circle")
       .attr("class", "bubbles")
