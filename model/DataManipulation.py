@@ -52,7 +52,7 @@ class UnitedStatesMap():
 
         county_dict = df[["CTYNAME", "POPESTIMATE2019"]]
         county_dict = county_dict.copy()
-        county_dict["CTYNAME"] = county_dict["CTYNAME"].str.split(" ", expand=True)[0]
+        county_dict["CTYNAME"] = county_dict["CTYNAME"].str.split(" Count", expand=True)[0]
         county_dict = county_dict.set_index("CTYNAME").to_dict()
         county_dict = county_dict["POPESTIMATE2019"]
 
@@ -71,7 +71,6 @@ class UnitedStatesMap():
         deaths = temp["Deaths"].tolist()
         recovered = temp["Recovered"].tolist()
         fips = temp["FIPS"].tolist()
-
 
         county = [county.split(',')[0] for county in county_ if county != state]
         state_labels = [county.split(',')[1] for county in county_]
@@ -299,7 +298,7 @@ class UnitedStatesMap():
 def main():
     avar = UnitedStatesMap()
 
-    sdl = avar.make_state("Wyoming")
+    sdl = avar.make_state("Georgia")
     print(avar.graph(sdl))
 
 
