@@ -4,7 +4,13 @@ from util import *
 class UnitedStatesMap():
     def __init__(self):
         global division_num
-        division_num = 1000
+        global max_node_degree
+        global max_num_components
+
+        division_num = 100
+        max_node_degree = 2
+        max_num_components = 1
+
 
         # Get current data url
         yesterday = dt.date.today() - dt.timedelta(days=1)
@@ -103,8 +109,13 @@ class UnitedStatesMap():
         if lat == None:
             pass
 
-        #print(county_name)
-        self.population_dict[county] = population
+        # Print invidiual county names to see progress
+        print(county_name)
+
+        # divide by two because herd immunity makes assumption
+        # that once half the population is infected, the virus
+        # cannot really spread more
+        self.population_dict[county] = population/2
         # number of nodes per thousand to represent the population
         population_scaled = population / division_num
         g_ratio = 15/1063.937
@@ -134,7 +145,7 @@ class UnitedStatesMap():
 
         return G
 
-    def add_edges_county(self, county, state, radius=0.5, max_node_degree=2, max_num_components=1):
+    def add_edges_county(self, county, state, radius=0.5):
         graph = self.county_plot(county, state)
         all_nodes = nx.get_node_attributes(graph, 'pos')
         node_key = list(all_nodes.keys())
@@ -289,7 +300,7 @@ class UnitedStatesMap():
 def main():
     avar = UnitedStatesMap()
 
-    sdl = avar.make_state("Georgia")
+    sdl = avar.make_state("Wyoming")
     print(avar.graph(sdl))
 
 
