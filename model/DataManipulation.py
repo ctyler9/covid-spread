@@ -56,6 +56,8 @@ class UnitedStatesMap():
     def county_df(self, state):
         # Get list of cities for that state
         temp = self.state_df(state)
+        if (state == 'Massachusetts'):
+            temp = temp.fillna(value=25007.0)
         lat = temp["Lat"].tolist()
         lon = temp["Long_"].tolist()
         county_ = temp["Combined_Key"].tolist()
@@ -64,6 +66,7 @@ class UnitedStatesMap():
         deaths = temp["Deaths"].tolist()
         recovered = temp["Recovered"].tolist()
         fips = temp["FIPS"].tolist()
+
 
         county = [county.split(',')[0] for county in county_ if county != state]
         state_labels = [county.split(',')[1] for county in county_]
@@ -83,9 +86,12 @@ class UnitedStatesMap():
     def county_plot(self, county, state):
         G = nx.Graph()
         county_dict = self.county_df(state)
+        #print(county_dict)
         lon, lat = county_dict[county]
         county_name = self.county_labels[county]
         county_pop_info = self.county_population(state)
+        if (county_name == 'Dukes and Nantucket'):
+            county_name = 'Dukes'
 
         ## Exceptions
         try:
@@ -97,7 +103,7 @@ class UnitedStatesMap():
         if lat == None:
             pass
 
-        print(county_name)
+        #print(county_name)
         self.population_dict[county] = population
         # number of nodes per thousand to represent the population
         population_scaled = population / division_num
