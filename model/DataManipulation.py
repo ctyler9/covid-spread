@@ -11,7 +11,6 @@ class UnitedStatesMap():
         max_node_degree = 2
         max_num_components = 1
 
-
         # Get current data url
         yesterday = dt.date.today() - dt.timedelta(days=1)
         str_time = yesterday.strftime("%m-%d-%Y")
@@ -154,7 +153,7 @@ class UnitedStatesMap():
             for person2, coordinates2 in all_nodes.items():
                 dist = haversine(coordinates1[0], coordinates1[1], coordinates2[0], coordinates2[1])
                 if dist < radius and dist != 0:
-                    if len(graph.edges(person1)) <= max_node_degree and len(graph.edges(person2)) <= max_node_degree:
+                    if len(graph.edges(person1)) <= max_node_degree-1 and len(graph.edges(person2)) <= max_node_degree-1:
                         graph.add_edge(person1, person2)
 
         while nx.number_connected_components(graph) > max_num_components:
