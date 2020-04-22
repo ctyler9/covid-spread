@@ -7,11 +7,19 @@
   <div class="col-md-6" id="titlearea"></div>
   <div class="col-md-6" id="chartarea">
     <div class="btn-holder">
+
       <div id="buttons">
+
           <button id="bubblesOn">Display Cases</button>
           <button id="bubblesOff">Hide Cases</button>
+          <select>
+            <option id="o1">Infection rate: 0.001; Recovery rate: 0.06</option>
+            <option id="o2">Infection rate: 0.010; Recovery rate: 0.80</option>
+            <option id="o3">Infection rate: 0.003; Recovery rate: 0.08</option>
+          </select>
       </div>
    </div>
+
   </div>
 </div>
 
@@ -25,22 +33,36 @@
 //title and info
 var svg_title = d3.select("#titlearea").append("svg")
     .attr("width", 1030)
-    .attr("height", 85);
+    .attr("height", 105);
 
 svg_title.append("text")
     .attr("text-anchor", "middle")
     .attr("y", 45)
-    .attr("x", 280)
+    .attr("x", 250)
     .attr("class", "title-text")
     .text("COVID-19 Cases by County:");
 
 svg_title.append("text")
     .attr("text-anchor", "middle")
     .attr("y", 75)
-    .attr("x", 390)
+    .attr("x", 330)
     .attr("class", "avg-text")
     .style("font", "12px sans-serif")
-    .text("Use the slider to display information for a specific date, and the buttons to view/hide bubbles");
+    .text("Use the slider to display information for a specific date, and the buttons to view/hide bubbles.");
+svg_title.append("text")
+    .attr("text-anchor", "middle")
+    .attr("y", 90)
+    .attr("x", 342)
+    .attr("class", "avg-text")
+    .style("font", "12px sans-serif")
+    .text("Use the dropdown to select different parameters for predicted spread. Rates are for 1000 people. ");
+svg_title.append("text")
+    .attr("text-anchor", "middle")
+    .attr("y", 105)
+    .attr("x", 200)
+    .attr("class", "avg-text")
+    .style("font", "12px sans-serif")
+    .text("Predicted data is from 2020-04-22 onward. ");
 
 //create chart
 var svg = d3.select("#chartarea").append("svg")
@@ -53,7 +75,7 @@ var regionMap = d3.map();
 var countyMap = d3.map();
 var parseTime = d3.timeParse("%Y-%m-%d");
 
-var projection = d3.geoAlbersUsa().scale(4000).translate([-800, 900])
+var projection = d3.geoAlbersUsa().scale(4000).translate([-875, 900])
 var path = d3.geoPath().projection(projection);
 var dates = [];
 var at_date;
@@ -61,52 +83,51 @@ var min_date;
 var max_date;
 
 var stats, counties, datelist, fipslist;
+//legend -- for population
+var x = d3.scaleLinear()
+    .domain([1, 325000])
+    .rangeRound([325, 875]);
 
-// //legend -- for deaths
-// var x = d3.scaleLinear()
-//     .domain([1, 85])
-//     .rangeRound([325, 875]);
-//
-// var rangeGreys = ["#ffffff","#f0f0f0","#eaeaea","#d9d9d9","#c5c5c5","#bdbdbd", "#a9a9a9"
-//       ,"#a0a0a0","#969696","#888888","#828282","#737373","#646464","#525252","#3e3e3e"
-//       ,"#252525","#000000"];
-//
-// var color = d3.scaleThreshold()
-//     .domain(d3.range(0, 85, 5))
-//     .range(rangeGreys);
-//
-// var g = svg.append("g")
-//     .attr("class", "key")
-//     .attr("transform", "translate(60,-280)");//-150,45
-//
-// g.selectAll("rect")
-//   .data(color.range().map(function(d) {
-//       d = color.invertExtent(d);
-//       if (d[0] == null) d[0] = x.domain()[0];
-//       if (d[1] == null) d[1] = x.domain()[1];
-//       return d;
-//     }))
-//   .enter().append("rect")
-//     .attr("width", 8)
-//     .attr("y", function(d) { return x(d[0]); })
-//     .attr("height", function(d) { return x(d[1]) - x(d[0]); })
-//     .attr("fill", function(d) { return color(d[0]); });
-//
-// g.append("text")
-//     .attr("class", "caption")
-//     .attr("x", x.range()[0] + 95)
-//     .attr("y", -10)
-//     .attr("fill", "#000")
-//     .attr("transform", "rotate(90)")
-//     .style("font", "10px sans-serif")
-//     .text("Deaths from COVID-19");
-//
-// g.call(d3.axisLeft(x)
-//     .tickSize(13)
-//     .tickFormat(function(x, i) { return (i === 16) ? x + "+" : x ; })
-//     .tickValues(color.domain()))
-//   .select(".domain")
-//     .remove();
+var rangeGreys = ["#ffffff","#f0f0f0","#eaeaea","#d9d9d9","#c5c5c5","#bdbdbd", "#a9a9a9"
+      ,"#a0a0a0","#969696","#888888","#828282","#737373","#646464","#525252","#3e3e3e"
+      ,"#252525","#000000"];
+
+var color = d3.scaleThreshold()
+    .domain(d3.range(0, 325000, 20000))
+    .range(rangeGreys);
+
+var g = svg.append("g")
+    .attr("class", "key")
+    .attr("transform", "translate(60,-280)");//-150,45
+
+g.selectAll("rect")
+  .data(color.range().map(function(d) {
+      d = color.invertExtent(d);
+      if (d[0] == null) d[0] = x.domain()[0];
+      if (d[1] == null) d[1] = x.domain()[1];
+      return d;
+    }))
+  .enter().append("rect")
+    .attr("width", 8)
+    .attr("y", function(d) { return x(d[0]); })
+    .attr("height", function(d) { return x(d[1]) - x(d[0]); })
+    .attr("fill", function(d) { return color(d[0]); });
+
+g.append("text")
+    .attr("class", "caption")
+    .attr("x", x.range()[0] + 95)
+    .attr("y", -10)
+    .attr("fill", "#000")
+    .attr("transform", "rotate(90)")
+    .style("font", "10px sans-serif")
+    .text("Population by County");
+
+g.call(d3.axisLeft(x)
+    .tickSize(13)
+    .tickFormat(function(x, i) { return (i === 16) ? x + "+" : x ; })
+    .tickValues(color.domain()))
+  .select(".domain")
+    .remove();
 
 //legend -- for cases
 var bubbles_legend = svg.selectAll(".bubbles-legend")
@@ -116,29 +137,29 @@ var bubbles_legend = svg.selectAll(".bubbles-legend")
     .attr("r", function(d) {
       return Math.sqrt(d) / (Math.PI * 2);
     })
-    .attr("transform", "translate(800,550)")
+    .attr("transform", "translate(700,550)")
     .attr("cy", d => -(Math.sqrt(d) / (Math.PI * 2)));
 
 svg.append("text")
-      .attr("transform", "translate(800,516)")
+      .attr("transform", "translate(700,516)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .attr("fill", "#900")
       .text("20k");
 svg.append("text")
-      .attr("transform", "translate(800,490)")
+      .attr("transform", "translate(700,490)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .attr("fill", "#900")
       .text("50k");
 svg.append("text")
-      .attr("transform", "translate(800,460)")
+      .attr("transform", "translate(700,460)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .attr("fill", "#900")
       .text("100k");
 svg.append("text")
-      .attr("transform", "translate(800,563)")
+      .attr("transform", "translate(700,563)")
       .attr("text-anchor", "middle")
       .style("font", "10px sans-serif")
       .text("Cases of COVID-19");
@@ -147,7 +168,6 @@ svg.append("text")
 function strong(text) {
     return "<strong>" + text + "</strong>"
 }
-
 
 var tip = d3.tip()
     .attr("class", "tip")
@@ -164,16 +184,14 @@ var tip = d3.tip()
           county = d.properties.name;
         }
         var state = regionMap.get(+d.id);
-        var cases = covid_cases.get(at_date).get(d.id);
-        // var deaths = covid_deaths.get(at_date).get(d.id);
+        var cases = covid_cases.get(at_rate).get(at_date).get(d.id);
+        var pop = covid_deaths.get(at_rate).get(at_date).get(d.id);
         if (cases === undefined) {
              cases = 0;
         }
-        // if (deaths === undefined) {
-        //      deaths = 0;
-        // }
         return "State: " + strong(state) +
             "<br>County: " + strong(county) +
+            "<br>Population: " + strong(pop) +
             "<br>Cases: " + strong(cases) +
             "</span>";
     });
@@ -197,7 +215,7 @@ function checker(x) {
 }
 
 function rad(id) {
-  return ( (!show_bubbles) ? 0 : Math.sqrt(checker(covid_cases.get(at_date).get(id))) / (Math.PI * 2));
+  return ( (!show_bubbles) ? 0 : Math.sqrt(checker(covid_cases.get(at_rate).get(at_date).get(id))) / (Math.PI * 2));
 }
 
 //button details
@@ -208,18 +226,31 @@ d3.selectAll("button")
     redraw();
   });
 
+
+//dropdown details
+var show_og = 0;
+d3.selectAll("select")
+  .on("change", function(d) {
+    console.log(d);
+    console.log(this.selectedIndex);
+    show_og = this.selectedIndex;
+    at_rate = ratelist[show_og]
+    redraw();
+  });
+
 /*****************************************************************************/
 
   var promises = [
     d3.json("./counties-10m.json"),
     // d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv", function(d) {
-    d3.csv("../data/combined_0.001_0.06.csv", function(d) {
+    d3.csv("../data/total_combined.csv", function(d) {
         return {date: d.date
                 , county:d.county
                 , state:d.state
                 , fips:d.fips
-                , cases: +d.cases * 1000};
-                //, deaths: +d.deaths};
+                , cases: +d.cases * 1000
+                , rates: d.rate
+                , pop: +d.population};
     }),
     d3.csv("./data/state_county_map.csv", function(d) {
       regionMap.set(+d.fips, d.state);
@@ -230,6 +261,7 @@ d3.selectAll("button")
 
 //preliminary plot
 function ready(data) {
+
   us = data[0];
   stats = data[1];
   counties = data[2];
@@ -245,7 +277,6 @@ function ready(data) {
         //36047: KINGS COUNTY, FOR NYC
         item['fips'] = "36047";
       } else if (item['county'] === "Kansas City") {
-        console.log("HERE");
         //29047: CLAY COUNTY, MO, FOR KANSAS CITY
         item['fips'] = "29047";
       }
@@ -254,36 +285,49 @@ function ready(data) {
 
   //get list of unique dates and fips
   datelist = [...new Set(stats.map(d=>d.date))];
+  ratelist = [...new Set(stats.map(d=>d.rates))]
   fipslist = [...new Set(stats.map(d=>d.fips))];
 
   //make full list of dates, county values & set default to 0
-  for (i=0; i<datelist.length; i++) {
-      d = datelist[i]; // the date
-      covid_cases.set(d, d3.map());
-      covid_deaths.set(d, d3.map());
-      for (j=0; j<fipslist.length; j++) {
-          fips = fipslist[j];
-          covid_cases.get(d).set(fips, 0);
-          covid_deaths.get(d).set(fips, 0);
-      }
+  for (z=0; z<ratelist.length; z++) {
+    r = ratelist[z];
+    covid_cases.set(r, d3.map());
+    covid_deaths.set(r, d3.map());
+    for (i=0; i<datelist.length; i++) {
+        d = datelist[i]; // the date
+        covid_cases.get(r).set(d, d3.map());
+        covid_deaths.get(r).set(d, d3.map());
+
+        // covid_cases.set(d, d3.map());
+        // covid_deaths.set(d, d3.map());
+        for (j=0; j<fipslist.length; j++) {
+            fips = fipslist[j];
+            covid_cases.get(r).get(d).set(fips, 0);
+            covid_deaths.get(r).get(d).set(fips, 0);
+        }
+    }
   }
 
   //assign data to right date
   for (i=0; i<stats.length; i++) {
       r = stats[i]; // the row
-      covid_cases.get(r['date']).set( r['fips'], r['cases']);
-      covid_deaths.get(r['date']).set(r['fips'], r['deaths']);
+      covid_cases.get(r['rates']).get(r['date']).set( r['fips'], r['cases']);
+      covid_deaths.get(r['rates']).get(r['date']).set(r['fips'], r['pop']);
   }
-  at_date = datelist[datelist.length - 1]
+
+  at_date = datelist[datelist.length - 1];
+  at_rate = ratelist[0];
+  console.log(at_rate);
+  console.log(ratelist[1]);
   min_date = datelist[0];
   max_date = datelist[datelist.length - 1];
 
   //slider to view the data as it happened
   var dispatch = d3.dispatch("input", "statechange");
-  var slider = d3.sliderRight()
+  var slider = d3.sliderBottom()
       .min(parseTime(min_date))
       .max(parseTime(max_date))
-      .height(500)
+      .width(500)
       .tickFormat(d3.timeFormat("%m-%d"))
       .tickValues(dates.forEach(element => parseTime(element)))
       .default(parseTime(max_date))
@@ -300,7 +344,7 @@ function ready(data) {
 
   svg.append("g")
       .call(slider)
-      .attr("transform", "translate(100,70)");
+      .attr("transform", "translate(220,20)");
 
   init_graph();
   redraw();
@@ -315,7 +359,7 @@ function init_graph() {
       return d.id.startsWith("23") || d.id.startsWith("50") || d.id.startsWith("44") || d.id.startsWith("33") || d.id.startsWith("09");
     }))
     .enter().append("path")
-      .attr("fill", '#f0f0f0')//function(d) { return color(0); })
+      .attr("fill", function(d) { return color(0); })
       .attr("d", path)
       .on("mouseover", handleMouseOver)
       .on("mouseout", handleMouseOut);
@@ -343,16 +387,15 @@ function redraw() {
 
   d3.selectAll(".counties")
       .selectAll("path").transition().duration(50)
-      .attr("fill", '#f0f0f0');
-      // function(d) {
-      //     initCovidd = covid_deaths.get(at_date).get(d.id);
-      //     if (initCovidd === undefined || initCovidd < 1) {
-      //       value = 0;
-      //     } else {
-      //       value = initCovidd;
-      //     }
-      //     return color(value);
-      // });
+      .attr("fill", function(d) {
+          initCovidd = covid_deaths.get(at_rate).get(at_date).get(d.id);
+          if (initCovidd === undefined || initCovidd < 1) {
+            value = 0;
+          } else {
+            value = initCovidd;
+          }
+          return color(value);
+      });
 
   d3.selectAll(".bubbles")
       .transition().duration(2000)
