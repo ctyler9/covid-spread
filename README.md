@@ -42,7 +42,7 @@ Calls all of the dependencies needed to run as well as some overflow functions.
 
 
 ## General Use: 
-To run all the functions together, just simply run the gispPrediction.py... it has everything set up so you can 
+To run all the functions together, just simply run the gispPrediction.py... it has everything set up with the main() function. You can customize the output for the main() function by passing in lists of specific states, infection rates, as well as an intege value of tMax and t0. 
 
 
 
