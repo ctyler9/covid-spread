@@ -2,7 +2,7 @@ from DataManipulation import *
 
 ## MODEL
 class gispPrediction():
-    def __init__(self, tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index):
+    def __init__(self, tmax, t0, infection_rate, recovery_rate, S0, I0, R0, graph):
         div_num = 100
 
         self.tmax = tmax
@@ -17,7 +17,6 @@ class gispPrediction():
         self.graph = graph
         self.adjmatrix = nx.to_numpy_array(graph)
         self.colorlist = ['#99B898','#FECEAB','#FF847C']
-        self.index = index
 
     def gillespie(self):
         #initial
@@ -168,10 +167,9 @@ def main(state_list, i_list, r_list, tmax, t):
         for infection_rate, recovery_rate in zip(i_list, r_list):
             us = UnitedStatesMap()
             graph = us.make_state(state)
-            index = us.index_dict()
             S0, I0, R0 = us.SIR()
 
-            state_prediction = gispPrediction(tmax, t0, infection_rate, recovery_rate, S0, I0, R0, graph, index)
+            state_prediction = gispPrediction(tmax, t0, infection_rate, recovery_rate, S0, I0, R0, graph)
             state_prediction.gillespie()
             state_prediction.create_data(state)
 
