@@ -1,13 +1,12 @@
 from util import *
 
-
 class UnitedStatesMap():
     def __init__(self):
         global division_num
         global max_node_degree
         global max_num_components
 
-        division_num = 100
+        division_num = 1000
         max_node_degree = 2
         max_num_components = 1
 
