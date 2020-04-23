@@ -1,5 +1,4 @@
 from DataManipulation import *
-import sys
 
 ## MODEL
 class gispPrediction():
