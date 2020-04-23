@@ -7,9 +7,11 @@ https://eholland7.github.io/2020-04-22-COVID-19-Cases-Projection/
 
 ## Model
 Three components:
-  > DataManipulation.py
-  > gispPrediction.py
-  > util.py
+  '''
+  DataManipulation.py
+  gispPrediction.py
+  util.py
+  '''
   
  ### DataManipulation - 
  High Level:
