@@ -19,8 +19,10 @@ Three components:
  
  Use: 
  To use, call the UnitedStatesMap class (it is automatically initialized) and then call the following methods:
-    > class.make_state(state) -> returns a networkX object of the state (str) passed in
-    > class.SIR() -> returns the initial susceptible, infected, and recovered numbers per state
+    ```
+    class.make_state(state) -> returns a networkX object of the state (str) passed in
+    class.SIR() -> returns the initial susceptible, infected, and recovered numbers per state
+    ```
     
     
 ### gispPrediction - 
@@ -29,18 +31,22 @@ Runs the gillespie algorithm on the networkX object passed into the class, where
 
 Use:
 To use, initialize the gispPrediction class with: 
-   > tmax -> how many days to run the prediction for
-   > t0 -> starting time
-   > infection_rate -> infection rate of virus
-   > recovery_rate -> recovery rate of virus
-   > s0 -> population that is initially susceptible
-   > i0 -> population that is initially infected
-   > r0 -> population that is initially recovered
-   > graph -> take networkX object of state in question
-
+   ```
+   tmax -> how many days to run the prediction for
+   t0 -> starting time
+   infection_rate -> infection rate of virus
+   recovery_rate -> recovery rate of virus
+   s0 -> population that is initially susceptible
+   i0 -> population that is initially infected
+   r0 -> population that is initially recovered
+   graph -> take networkX object of state in question
+  ```
+  
 Then, run these methods (which are automatically called in the main function):
-  > gillespie() -> runs algorithm
-  > created_date(state) -> takes in input from algorithm and converts it in to a CSV with rows of counties and columns of dates and values of number infected; passes in state name (str)
+  ```
+  gillespie() -> runs algorithm
+  created_date(state) -> takes in input from algorithm and converts it in to a CSV with rows of counties and columns of dates and values of number infected; passes in state name (str)
+  ```
 
 ### util - 
 Calls all of the dependencies needed to run as well as some overflow functions. 
