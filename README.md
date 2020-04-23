@@ -4,6 +4,7 @@ Final project for CX4242 Spring 2020, looks to forecast the spread of COVID-19. 
 This specific example looks to forecast the spread of the virus in New England: 
 https://eholland7.github.io/2020-04-22-COVID-19-Cases-Projection/
 
+# DESCRIPTION
 ## Model
 Three components:
   ```
@@ -52,14 +53,14 @@ Calls all of the dependencies needed to run as well as some overflow functions.
 
 ## Visualization
 
-# Installation:
+# INSTALLATION:
 ```
 pip install pandas, numpy, networkx, matplotlib, datetime, uszipcode
 ```
 The rest of the modules should be built in to Python
 
 
-# Execution: 
+# EXECUTION: 
 To run all the functions together, just simply run the gispPrediction.py... it has everything set up with the main() function. You can customize the output for the main() function by passing in lists of specific states, infection rates, as well as an intege value of tMax and t0. 
 
 
