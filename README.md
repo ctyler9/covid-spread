@@ -21,7 +21,6 @@ Three components:
  To use, call the UnitedStatesMap class (it is automatically initialized) and then call the following methods:
     ```
     class.make_state(state) -> returns a networkX object of the state (str) passed in
-    
     class.SIR() -> returns the initial susceptible, infected, and recovered numbers per state
     ```
     
