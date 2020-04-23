@@ -1,6 +1,9 @@
 # covid-spread
 Final project for CX4242 Spring 2020, looks to forecast the spread of COVID-19. Uses the data from John Hopkin's to populate a networkX graph which a gillespie algorithm is run to simulate the spread of the virus in a D3 webpage. 
 
+This specific example looks to forecast the spread of the virus in New England: 
+https://eholland7.github.io/2020-04-22-COVID-19-Cases-Projection/
+
 
 ## Model
 Three components:
