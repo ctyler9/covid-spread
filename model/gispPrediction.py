@@ -3,7 +3,7 @@ from DataManipulation import *
 ## MODEL
 class gispPrediction():
     def __init__(self, tmax, t, infection_rate, recovery_rate, S0, I0, R0, graph, index):
-        div_num = 1000
+        div_num = 100
 
         self.tmax = tmax
         self.t = 0
@@ -123,6 +123,7 @@ class gispPrediction():
         for i in range(len(data.columns)):
             data[data.columns[i]] = self.matrix_status[i]
 
+
         #cleanup
         df = data.T
         df.reset_index(inplace=True)
@@ -141,7 +142,6 @@ class gispPrediction():
         df['real time'] = df['real time'].apply(lambda x: x.strftime("%Y-%m-%d"))
         df['date'] = df['real time']
 
-
         #cleanup
         del df['index']
         del df['time']
@@ -156,7 +156,8 @@ class gispPrediction():
         df = df.drop(columns=['index'])
         df = df.groupby(['county'], as_index=False).sum()
 
-        df.to_csv("../data/output_{0}_{1}_{2}.csv".format(state, str(self.infection_rate), str(self.recovery_rate)))
+
+        df.to_csv("../output_data/output_{0}_{1}_{2}.csv".format(state, str(self.infection_rate), str(self.recovery_rate)))
 
         return df
 
@@ -168,8 +169,6 @@ def main(state_list, i_list, r_list, tmax, t):
             us = UnitedStatesMap()
             graph = us.make_state(state)
             index = us.index_dict()
-            infection_rate = 0.01
-            recovery_rate = 0.06
             S0, I0, R0 = us.SIR()
 
             state_prediction = gispPrediction(tmax, t0, infection_rate, recovery_rate, S0, I0, R0, graph, index)
