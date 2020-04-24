@@ -57,7 +57,7 @@ Creates a choropleth of part of the New England region (Connecticut, New Hampshi
 
 # INSTALLATION:
 ```
-pip install pandas, numpy, networkx, matplotlib, datetime, uszipcode
+pip install pandas, numpy, networkx, matplotlib, uszipcode
 ```
 The rest of the modules should be built in to Python
 
