@@ -67,4 +67,4 @@ To run all the functions together, just simply run the gispPrediction.py as show
 ```
 python gispPrediction.py
 ```
-It has everything set up with the main() function to run the states in the New England region with the exception of Massachusetts. You can customize the output for the main() function by passing in lists of specific states, infection rates, as well as an intege value of tMax and t0. 
+It has everything set up with the main() function to run the states in the New England region with the exception of Massachusetts. You can customize the output for the main() function by passing in lists of specific states, infection rates, as well as an integer value of tMax and t0. 
