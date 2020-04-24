@@ -53,15 +53,18 @@ Calls all of the dependencies needed to run as well as some overflow functions.
 
 ## Visualization
 
+Creates a choropleth of part of the New England region (Connecticut, New Hampshire, Maine, Rhode Island and Vermont) using D3. 
+
 # INSTALLATION:
 ```
-pip install pandas, numpy, networkx, matplotlib, datetime, uszipcode
+pip install pandas, numpy, networkx, matplotlib, uszipcode
 ```
 The rest of the modules should be built in to Python
 
 
 # EXECUTION: 
-To run all the functions together, just simply run the gispPrediction.py... it has everything set up with the main() function. You can customize the output for the main() function by passing in lists of specific states, infection rates, as well as an intege value of tMax and t0. 
-
-
-  
+To run all the functions together, just simply run the gispPrediction.py as shown below:
+```
+python gispPrediction.py
+```
+It has everything set up with the main() function to run the states in the New England region with the exception of Massachusetts. You can customize the output for the main() function by passing in lists of specific states, infection rates, as well as an intege value of tMax and t0. 
