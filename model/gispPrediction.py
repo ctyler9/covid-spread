@@ -156,7 +156,7 @@ class gispPrediction():
         df = df.groupby(['county'], as_index=False).sum()
 
 
-        df.to_csv("../output_data/output_{0}_{1}_{2}.csv".format(state, str(self.infection_rate), str(self.recovery_rate)))
+        df.to_csv("../data/output_{0}_{1}_{2}.csv".format(state, str(self.infection_rate), str(self.recovery_rate)))
 
         return df
 
